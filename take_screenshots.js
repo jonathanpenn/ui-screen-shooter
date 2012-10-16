@@ -24,10 +24,10 @@ function captureLocalizedScreenshot(name) {
 
 var window = target.frontMostApp().mainWindow();
 
-captureLocalizedScreenshot("1");
+captureLocalizedScreenshot("screen1");
 
 window.buttons()[0].tap();
 target.delay(0.5);
 
-captureLocalizedScreenshot("2");
+captureLocalizedScreenshot("screen2");
 

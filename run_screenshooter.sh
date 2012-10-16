@@ -1,25 +1,28 @@
 #!/bin/bash
 
+# Tell bash that we want the whole script to fail if any part fails.
 set -e
 
+# We require a parameter for where to put the results
+destination="$1"
+
 main() {
+  check_destination
+
   xcode clean build TARGETED_DEVICE_FAMILY=1
 
-  shoot "iPhone (Retina 3.5-inch)" "en"
-  shoot "iPhone (Retina 3.5-inch)" "fr"
-  shoot "iPhone (Retina 3.5-inch)" "ja"
+  bin/choose_sim_device "iPhone (Retina 3.5-inch)"
+  shoot en fr ja
 
-  shoot "iPhone (Retina 4-inch)" "en"
-  shoot "iPhone (Retina 4-inch)" "fr"
-  shoot "iPhone (Retina 4-inch)" "ja"
+  bin/choose_sim_device "iPhone (Retina 4-inch)"
+  shoot en fr ja
 
   # We to build again with the iPad device family because otherwise Instruments
   # will build and run for iPhone even though the simulator says otherwise.
   xcode build TARGETED_DEVICE_FAMILY=2
 
-  shoot "iPad (Retina)" "en"
-  shoot "iPad (Retina)" "fr"
-  shoot "iPad (Retina)" "ja"
+  bin/choose_sim_device "iPad (Retina)"
+  shoot en fr ja
 
   close_sim
 }
@@ -30,17 +33,26 @@ tmp_dir="/tmp"
 build_dir="$tmp_dir/screen_shooter"
 bundle_dir="$build_dir/app.app"
 trace_results_dir="$build_dir/traces"
-destination="$1"
+
+check_destination() {
+  # Abort if the destination directory already exists. Better safe than sorry.
+
+  if [ -d "$destination" ]; then
+    echo "Destination directory \"$destination\" already exists! Aborting."
+    exit 1
+  fi
+}
 
 shoot() {
   # Takes the sim device type and a language code, runs the screenshot script,
   # and then copies over the screenshots to the destination
 
-  clean_trace_results_dir
-  bin/choose_sim_device "$1"
-  choose_sim_language "$2"
-  take_screenshots
-  copy_screenshots
+  for language in $*; do
+    clean_trace_results_dir
+    choose_sim_language $language
+    run_automation "take_screenshots.js"
+    copy_screenshots
+  done
 }
 
 xcode() {
@@ -87,7 +99,7 @@ close_sim() {
   osascript -e 'tell application "iPhone Simulator" to quit'
 }
 
-take_screenshots() {
+run_automation() {
   # Runs the UI Automation JavaScript file that actually takes the screenshots.
 
   tracetemplate="$dev_tools_dir/../Applications/Instruments.app/Contents/PlugIns/AutomationInstrument.bundle/Contents/Resources/Automation.tracetemplate"
@@ -98,7 +110,7 @@ take_screenshots() {
     -t "$tracetemplate" \
     $bundle_dir \
     -e UIARESULTSPATH "$trace_results_dir" \
-    -e UIASCRIPT screenshots.js \
+    -e UIASCRIPT "$1" \
     $*
 }
 
@@ -107,7 +119,7 @@ copy_screenshots() {
   # assume that any screenshots were saved in the "Run 1" directory. Copy them
   # to the destination!
 
-  mkdir -p $destination
+  mkdir -p "$destination"
   cp $trace_results_dir/Run\ 1/*.png $destination
 }
 

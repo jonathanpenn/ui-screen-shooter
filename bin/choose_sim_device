@@ -1,0 +1,49 @@
+#!/usr/bin/env osascript
+
+(*
+
+Chooses a device type from the iPhone Simulator using menu
+selection events.
+
+To use, make sure this file is executable, then run from the terminal:
+
+  bin/choose_sim_device "iPad (Retina)"
+
+Originally, I tried to do this by editing the Preference file for the
+simulator, and it worked under Xcode 4.3, but now it ignores those changes
+often enough that I chose to use this menu-selection route.
+
+*)
+
+-- START:choose.sim.device
+on run argv
+  set simType to item 1 of argv
+
+  tell application "iPhone Simulator" to activate
+  tell application "System Events"
+    tell process "iPhone Simulator"
+      tell menu bar 1
+        tell menu bar item "Hardware"
+          tell menu "Hardware"
+            tell menu item "Device"
+              tell menu "Device"
+                click menu item simType
+              end tell
+            end tell
+          end tell
+        end tell
+      end tell
+    end tell
+  end tell
+  -- END:choose.sim.device
+
+  -- Need to show the simulator again after changing device,
+  -- or else the simulator be hidden when launched by instruments
+  -- for some odd reason.
+  tell application "System Events"
+    set visible of process "iPhone Simulator" to true
+  end tell
+
+  -- START:choose.sim.device
+end run
+-- END:choose.sim.device

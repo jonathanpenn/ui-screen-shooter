@@ -13,14 +13,21 @@ function captureLocalizedScreenshot(name) {
   }
 
   var orientation = "portrait";
-  if (rect.size.height > rect.size.width) orientation = "landscape";
+  if (rect.size.height < rect.size.width) orientation = "landscape";
 
   var language = target.frontMostApp().
     preferencesValueForKey("AppleLanguages")[0];
 
-  var parts = [mode, orientation, language, name];
+  var parts = [model, orientation, language, name];
   target.captureScreenWithName(parts.join("-"));
 }
 
-captureLocalizedScreenshot("test");
+var window = target.frontMostApp().mainWindow();
+
+captureLocalizedScreenshot("1");
+
+window.buttons()[0].tap();
+target.delay(0.5);
+
+captureLocalizedScreenshot("2");
 

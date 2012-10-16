@@ -37,7 +37,10 @@ trace_results_dir="$build_dir/traces"
 check_destination() {
   # Abort if the destination directory already exists. Better safe than sorry.
 
-  if [ -d "$destination" ]; then
+  if [ -z "$destination" ]; then
+    echo "usage: run_screenshooter.sh destination_directory"
+    exit 1
+  elif [ -d "$destination" ]; then
     echo "Destination directory \"$destination\" already exists! Aborting."
     exit 1
   fi

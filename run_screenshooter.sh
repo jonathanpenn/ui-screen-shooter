@@ -90,9 +90,9 @@ choose_sim_language() {
 
   close_sim
 
-  /usr/libexec/PlistBuddy "$pref_file" -c "Delete :AppleLanguages"
-  /usr/libexec/PlistBuddy "$pref_file" -c "Add :AppleLanguages array"
-  /usr/libexec/PlistBuddy "$pref_file" -c "Add :AppleLanguages:0 string '$1'"
+  /usr/libexec/PlistBuddy "$pref_file" -c "Delete :AppleLanguages" \
+    -c "Add :AppleLanguages array" \
+    -c "Add :AppleLanguages:0 string '$1'"
 }
 
 close_sim() {

@@ -86,14 +86,17 @@ choose_sim_language() {
 
   echo "Localizing for $1"
 
-  pref_file=`ls ~/Library/Application\ Support/iPhone\ Simulator/6.0/Library/Preferences/.GlobalPreferences.plist`
+  pref_files=`ls ~/Library/Application\ Support/iPhone\ Simulator/[0-9]*/Library/Preferences/.GlobalPreferences.plist`
 
   close_sim
 
-  /usr/libexec/PlistBuddy "$pref_file" -c "Delete :AppleLanguages" \
-    -c "Add :AppleLanguages array" \
-    -c "Add :AppleLanguages:0 string '$1'"
+  for file in "$pref_files"; do
+    /usr/libexec/PlistBuddy "$file" -c "Delete :AppleLanguages" \
+      -c "Add :AppleLanguages array" \
+      -c "Add :AppleLanguages:0 string '$1'"
+  done
 }
+
 
 close_sim() {
   # Closes the simulator. We need to do this after altering the languages and

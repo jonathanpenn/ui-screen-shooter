@@ -18,7 +18,7 @@ function captureLocalizedScreenshot(name) {
   var language = target.frontMostApp().
     preferencesValueForKey("AppleLanguages")[0];
 
-  var parts = [model, orientation, language, name];
+  var parts = [language, model, orientation, name];
   target.captureScreenWithName(parts.join("-"));
 }
 

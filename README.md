@@ -25,7 +25,7 @@ The first part is the locale identifier, the second is the device (iphone, iphon
 
 ## How It Works
 
-`run_screenshooter.sh` triggers a build of the application for the iOS simulator and puts the resulting bundle in `/tmp` with a custom name so it can find it. Then, the `instruments` command line tool is invoked which installs the app bundle and then executes `automation/run.js` which drives the simulator. `run.js` drives the app and calls `captureLocalizedScreenshot()` to shoot each image after navigating to the right screen.
+`run_screenshooter.sh` triggers a build of the application for the iOS simulator and puts the resulting bundle in `/tmp` with a custom name so it can find it. Then, the `instruments` command line tool is invoked which installs the app bundle and then executes `automation/shoot_the_screens.js` which drives the simulator. `shoot_the_screens.js` drives the app and calls `captureLocalizedScreenshot()` to shoot each image after navigating to the right screen.
 
 `captureLocalizedScreenshot()` is a custom method that pulls the user's language choice out of the user defaults, checks for the device and whether it's a 4" display or not, deduces the orientation, and generates the screenshot file name along with the user supplied identifier. Once the name is calculated, it calls `captureScreenWithName()` on the `UIATarget` which saves the image along with the Instruments trace results in `/tmp`.
 

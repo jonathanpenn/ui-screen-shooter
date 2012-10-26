@@ -73,7 +73,7 @@ shoot() {
   for language in $*; do
     clean_trace_results_dir
     choose_sim_language $language
-    run_automation "automation/run.js"
+    run_automation "automation/shoot_the_screens.js"
     copy_screenshots
   done
 }

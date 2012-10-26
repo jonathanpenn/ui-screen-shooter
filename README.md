@@ -1,5 +1,5 @@
-UI Screen Shots
-===============
+UI Screen Shooter
+=================
 
 This is a set of scripts to demonstrate how to take screen shots for your iOS app for the App Store automatically using UI Automation. It shows how to take screen shots, extract them from the automation results and change the language in the simulator with shell scripts. This saves quite a bit of time since we need to generate screens for the 3.5" display, the 4" display, and both iPhone and iPad if your app is universal--not to mention that you have to do this for *every* localization you support in the store.
 
@@ -55,4 +55,4 @@ Jonathan Penn
 
 ## License
 
-UI Screen Shots is available under the MIT license. See the LICENSE file for more info.
+UI Screen Shooter is available under the MIT license. See the LICENSE file for more info.

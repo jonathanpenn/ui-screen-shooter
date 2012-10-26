@@ -110,11 +110,30 @@ choose_sim_language() {
 
   close_sim
 
-  for file in "$pref_files"; do
-    /usr/libexec/PlistBuddy "$file" -c "Delete :AppleLanguages" \
+
+  # Set the string split delimiter to a newline for the 'for..in'
+  old=$IFS
+  IFS="
+"
+
+  for file in $pref_files; do
+    # Disable errors temporarily just in case the prefs don't have the key
+    # we're trying to delete. This could happen when experimenting and leaving
+    # the prefs file in an inconsistent state. If anything goes horribly wrong,
+    # just delete the prefs file altogether and run the simulator to recreate
+    # it.
+    set +e
+    /usr/libexec/PlistBuddy "$file" -c "Delete :AppleLanguages"
+    set -e
+
+    # Create the language array with just the given language
+    /usr/libexec/PlistBuddy "$file" \
       -c "Add :AppleLanguages array" \
       -c "Add :AppleLanguages:0 string '$1'"
   done
+
+  # Put the old string split delimiter back
+  IFS=$old
 }
 
 

@@ -129,7 +129,8 @@ choose_sim_language() {
     # Create the language array with just the given language
     /usr/libexec/PlistBuddy "$file" \
       -c "Add :AppleLanguages array" \
-      -c "Add :AppleLanguages:0 string '$1'"
+      -c "Add :AppleLanguages:0 string '$1'" \
+      -c "Set :AppleLocale '$1'"
   done
 
   # Put the old string split delimiter back

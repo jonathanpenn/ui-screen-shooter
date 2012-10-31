@@ -31,7 +31,12 @@
     [super viewWillAppear:animated];
     NSLocale *locale = [NSLocale currentLocale];
     NSString *language = [locale displayNameForKey:NSLocaleIdentifier value:[NSLocale preferredLanguages][0]];
-    self.languageControl.text = language;
+    NSString *format = [NSDateFormatter dateFormatFromTemplate:@"MMMMyyyy" options:0 locale:locale];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:format];
+    NSString *dateString = [formatter stringFromDate:[NSDate date]];
+    NSString *text = [NSString stringWithFormat:@"%@\n%@", language, dateString];
+    self.languageControl.text = text;
 }
 
 @end

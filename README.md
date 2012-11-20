@@ -25,11 +25,13 @@ The first part is the locale identifier, the second is the device (iphone, iphon
 
 ## How It Works
 
-`run_screenshooter.sh` triggers a build of the application for the iOS simulator and puts the resulting bundle in `/tmp` with a custom name so it can find it. Then, the `instruments` command line tool is invoked which installs the app bundle and then executes `automation/shoot_the_screens.js` which drives the simulator. `shoot_the_screens.js` drives the app and calls `captureLocalizedScreenshot()` to shoot each image after navigating to the right screen.
+`run_screenshooter.sh` triggers a build of the application for the iOS simulator and puts the resulting bundle in `/tmp` with a custom name so it can find it.  Then, the `instruments` command line tool is invoked which installs the app bundle and then executes `automation/shoot_the_screens.js` which drives the simulator. `shoot_the_screens.js` drives the app and calls `captureLocalizedScreenshot()` to shoot each image after navigating to the right screen.
 
 `captureLocalizedScreenshot()` is a custom method that pulls the user's language choice out of the user defaults, checks for the device and whether it's a 4" display or not, deduces the orientation, and generates the screenshot file name along with the user supplied identifier. Once the name is calculated, it calls `captureScreenWithName()` on the `UIATarget` which saves the image along with the Instruments trace results in `/tmp`.
 
 After each time the automation script ends, `run_screenshooter.sh` copies all the screenshots taken for that Instruments trace run and copies them to the destination directory. Then it continues on to execute the same automation script again with a new language or an a new device type. Check out the `main` function in `run_screenshooter.sh` for how this is all set up.
+
+The app build process may be the most difficult part for you if you're trying to integrate this with your project. `xcodebuild` needs extra details if you're using an explicit workspace or using a beta version of the dev tools. If the app isn't building, see if you can try to get `xcodebuild` to work yourself and then alter the `xcode` function in `run_screenshooter.sh` to match your setup.
 
 ## For More Info
 

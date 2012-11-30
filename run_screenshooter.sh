@@ -48,7 +48,6 @@ main() {
 }
 
 # Global variables to keep track of where everything goes
-dev_tools_dir=`xcode-select -print-path`
 tmp_dir="/tmp"
 build_dir="$tmp_dir/screen_shooter"
 bundle_dir="$build_dir/app.app"
@@ -103,6 +102,7 @@ clean_trace_results_dir() {
 run_automation() {
   # Runs the UI Automation JavaScript file that actually takes the screenshots.
 
+  dev_tools_dir=`xcode-select -print-path`
   tracetemplate="$dev_tools_dir/../Applications/Instruments.app/Contents/PlugIns/AutomationInstrument.bundle/Contents/Resources/Automation.tracetemplate"
 
   # Check out the `unix_instruments` script to see why we need this wrapper.

@@ -45,6 +45,9 @@ main() {
   shoot en fr ja
 
   bin/close_sim
+
+  echo
+  echo "Screenshots complete!"
 }
 
 # Global variables to keep track of where everything goes

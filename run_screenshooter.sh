@@ -44,7 +44,7 @@ main() {
   bin/choose_sim_device "iPad (Retina)"
   shoot en fr ja
 
-  close_sim
+  bin/close_sim
 }
 
 # Global variables to keep track of where everything goes
@@ -72,7 +72,7 @@ shoot() {
 
   for language in $*; do
     clean_trace_results_dir
-    choose_sim_language $language
+    bin/choose_sim_language $language
     run_automation "automation/shoot_the_screens.js"
     copy_screenshots
   done
@@ -98,51 +98,6 @@ clean_trace_results_dir() {
 
   rm -rf "$trace_results_dir"
   mkdir -p "$trace_results_dir"
-}
-
-choose_sim_language() {
-  # Alters the global preference file for every simulator type and moves the
-  # chosen language identifier to the top.
-
-  echo "Localizing for $1"
-
-  pref_files=`ls ~/Library/Application\ Support/iPhone\ Simulator/[0-9]*/Library/Preferences/.GlobalPreferences.plist`
-
-  close_sim
-
-
-  # Set the string split delimiter to a newline for the 'for..in'
-  old=$IFS
-  IFS="
-"
-
-  for file in $pref_files; do
-    # Disable errors temporarily just in case the prefs don't have the key
-    # we're trying to delete. This could happen when experimenting and leaving
-    # the prefs file in an inconsistent state. If anything goes horribly wrong,
-    # just delete the prefs file altogether and run the simulator to recreate
-    # it.
-    set +e
-    /usr/libexec/PlistBuddy "$file" -c "Delete :AppleLanguages"
-    set -e
-
-    # Create the language array with just the given language
-    /usr/libexec/PlistBuddy "$file" \
-      -c "Add :AppleLanguages array" \
-      -c "Add :AppleLanguages:0 string '$1'" \
-      -c "Set :AppleLocale '$1'"
-  done
-
-  # Put the old string split delimiter back
-  IFS=$old
-}
-
-
-close_sim() {
-  # Closes the simulator. We need to do this after altering the languages and
-  # when we want to clean up at the end.
-
-  osascript -e 'tell application "iPhone Simulator" to quit'
 }
 
 run_automation() {

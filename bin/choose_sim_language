@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Alters the global preference file for every simulator type and moves the
+# chosen language identifier to the top.
+
+echo "Localizing for $1"
+
+# Grab the global pref file for every simulator version in a string
+pref_files=`ls ~/Library/Application\ Support/iPhone\ Simulator/[0-9]*/Library/Preferences/.GlobalPreferences.plist`
+
+# Quit the simulator because we're altering preference files underneath it
+osascript -e 'tell application "iPhone Simulator" to quit'
+
+# Set the string split delimiter to a newline for the 'for..in'
+IFS="
+"
+
+for file in $pref_files; do
+  # Disable errors temporarily just in case the prefs don't have the key
+  # we're trying to delete. This could happen when experimenting and leaving
+  # the prefs file in an inconsistent state. If anything goes horribly wrong,
+  # just reset the simulator and everything will be fine.
+  set +e
+  /usr/libexec/PlistBuddy "$file" -c "Delete :AppleLanguages"
+  set -e
+
+  # Create the language array with just the given language
+  /usr/libexec/PlistBuddy "$file" \
+    -c "Add :AppleLanguages array" \
+    -c "Add :AppleLanguages:0 string '$1'" \
+    -c "Set :AppleLocale '$1'"
+done

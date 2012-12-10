@@ -27,7 +27,7 @@ set -e
 destination="$1"
 
 main() {
-  check_destination
+  _check_destination
 
   # Attempt to save and restore the language the simulator SDKs were in before
   # running this. If you want to explicitly set the language, use the
@@ -35,20 +35,20 @@ main() {
   original_language=$(bin/choose_sim_language)
   echo "Saving original language $original_language..."
 
-  xcode clean build TARGETED_DEVICE_FAMILY=1
+  _xcode clean build TARGETED_DEVICE_FAMILY=1
 
   bin/choose_sim_device "iPhone (Retina 3.5-inch)"
-  shoot en fr ja
+  _shoot en fr ja
 
   bin/choose_sim_device "iPhone (Retina 4-inch)"
-  shoot en fr ja
+  _shoot en fr ja
 
   # We to build again with the iPad device family because otherwise Instruments
   # will build and run for iPhone even though the simulator says otherwise.
-  xcode build TARGETED_DEVICE_FAMILY=2
+  _xcode build TARGETED_DEVICE_FAMILY=2
 
   bin/choose_sim_device "iPad (Retina)"
-  shoot en fr ja
+  _shoot en fr ja
 
   bin/close_sim
 
@@ -65,7 +65,7 @@ build_dir="$tmp_dir/screen_shooter"
 bundle_dir="$build_dir/app.app"
 trace_results_dir="$build_dir/traces"
 
-check_destination() {
+_check_destination() {
   # Abort if the destination directory already exists. Better safe than sorry.
 
   if [ -z "$destination" ]; then
@@ -77,19 +77,19 @@ check_destination() {
   fi
 }
 
-shoot() {
+_shoot() {
   # Takes the sim device type and a language code, runs the screenshot script,
   # and then copies over the screenshots to the destination
 
   for language in $*; do
-    clean_trace_results_dir
+    _clean_trace_results_dir
     bin/choose_sim_language $language
-    run_automation "automation/shoot_the_screens.js"
-    copy_screenshots
+    _run_automation "automation/shoot_the_screens.js"
+    _copy_screenshots
   done
 }
 
-xcode() {
+_xcode() {
   # A wrapper around `xcodebuild` that tells it to build the app in the temp
   # directory. If your app uses workspaces or special schemes, you'll need to
   # specify them here.
@@ -102,7 +102,7 @@ xcode() {
     $*
 }
 
-clean_trace_results_dir() {
+_clean_trace_results_dir() {
   # Removes the trace results directory. We need to do this because Instruments
   # keeps appending new trace runs and it's simpler for us to always assume
   # there's just one run recorded where we look for screenshots.
@@ -111,7 +111,7 @@ clean_trace_results_dir() {
   mkdir -p "$trace_results_dir"
 }
 
-run_automation() {
+_run_automation() {
   # Runs the UI Automation JavaScript file that actually takes the screenshots.
 
   dev_tools_dir=`xcode-select -print-path`
@@ -127,7 +127,7 @@ run_automation() {
     $*
 }
 
-copy_screenshots() {
+_copy_screenshots() {
   # Since we're always clearing out the trace results before every run, we can
   # assume that any screenshots were saved in the "Run 1" directory. Copy them
   # to the destination!

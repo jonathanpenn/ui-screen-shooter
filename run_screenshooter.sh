@@ -29,6 +29,12 @@ destination="$1"
 main() {
   check_destination
 
+  # Attempt to save and restore the language the simulator SDKs were in before
+  # running this. If you want to explicitly set the language, use the
+  # `bin/choose_sim_language [lang]` after you run this script.
+  original_language=$(bin/choose_sim_language)
+  echo "Saving original language $original_language..."
+
   xcode clean build TARGETED_DEVICE_FAMILY=1
 
   bin/choose_sim_device "iPhone (Retina 3.5-inch)"
@@ -45,6 +51,9 @@ main() {
   shoot en fr ja
 
   bin/close_sim
+
+  echo "Restoring original language $original_language..."
+  bin/choose_sim_language $original_language
 
   echo
   echo "Screenshots complete!"

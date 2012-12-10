@@ -26,7 +26,7 @@ set -e
 # We require a parameter for where to put the results
 destination="$1"
 
-main() {
+function main {
   _check_destination
 
   # Attempt to save and restore the language the simulator SDKs were in before
@@ -65,7 +65,7 @@ build_dir="$tmp_dir/screen_shooter"
 bundle_dir="$build_dir/app.app"
 trace_results_dir="$build_dir/traces"
 
-_check_destination() {
+function _check_destination {
   # Abort if the destination directory already exists. Better safe than sorry.
 
   if [ -z "$destination" ]; then
@@ -77,7 +77,7 @@ _check_destination() {
   fi
 }
 
-_shoot() {
+function _shoot {
   # Takes the sim device type and a language code, runs the screenshot script,
   # and then copies over the screenshots to the destination
 
@@ -89,7 +89,7 @@ _shoot() {
   done
 }
 
-_xcode() {
+function _xcode {
   # A wrapper around `xcodebuild` that tells it to build the app in the temp
   # directory. If your app uses workspaces or special schemes, you'll need to
   # specify them here.
@@ -102,7 +102,7 @@ _xcode() {
     $*
 }
 
-_clean_trace_results_dir() {
+function _clean_trace_results_dir {
   # Removes the trace results directory. We need to do this because Instruments
   # keeps appending new trace runs and it's simpler for us to always assume
   # there's just one run recorded where we look for screenshots.
@@ -111,7 +111,7 @@ _clean_trace_results_dir() {
   mkdir -p "$trace_results_dir"
 }
 
-_run_automation() {
+function _run_automation {
   # Runs the UI Automation JavaScript file that actually takes the screenshots.
 
   dev_tools_dir=`xcode-select -print-path`
@@ -127,7 +127,7 @@ _run_automation() {
     $*
 }
 
-_copy_screenshots() {
+function _copy_screenshots {
   # Since we're always clearing out the trace results before every run, we can
   # assume that any screenshots were saved in the "Run 1" directory. Copy them
   # to the destination!

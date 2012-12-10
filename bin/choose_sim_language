@@ -44,11 +44,12 @@ for file in $pref_files; do
   # just reset the simulator and everything will be fine.
   set +e
   /usr/libexec/PlistBuddy "$file" -c "Delete :AppleLanguages"
+  /usr/libexec/PlistBuddy "$file" -c "Delete :AppleLocale"
   set -e
 
   # Create the language array with just the given language
   /usr/libexec/PlistBuddy "$file" \
     -c "Add :AppleLanguages array" \
     -c "Add :AppleLanguages:0 string '$1'" \
-    -c "Set :AppleLocale '$1'"
+    -c "Add :AppleLocale string '$1'"
 done

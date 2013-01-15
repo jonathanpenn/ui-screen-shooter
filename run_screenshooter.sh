@@ -41,6 +41,9 @@ function main {
   # We have to build and explicitly set the device family to iPhone because
   # otherwise Instruments will always try to launch a universal app on the iPad
   # simulator.
+  #
+  # If your app isn't universal and only on iPhone or iPad, then you can remove
+  # the parts that don't matter for you.
   _xcode clean build TARGETED_DEVICE_FAMILY=1
 
   bin/choose_sim_device "iPhone (Retina 3.5-inch)"

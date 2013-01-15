@@ -26,6 +26,9 @@ set -e
 # We require a parameter for where to put the results
 destination="$1"
 
+# The locale identifiers for the languages you want to shoot
+languages="en fr ja"
+
 function main {
   _check_destination
 
@@ -35,20 +38,24 @@ function main {
   original_language=$(bin/choose_sim_language)
   echo "Saving original language $original_language..."
 
+  # We have to build and explicitly set the device family to iPhone because
+  # otherwise Instruments will always try to launch a universal app on the iPad
+  # simulator.
   _xcode clean build TARGETED_DEVICE_FAMILY=1
 
   bin/choose_sim_device "iPhone (Retina 3.5-inch)"
-  _shoot en fr ja
+  _shoot_screens_for_all_languages
 
   bin/choose_sim_device "iPhone (Retina 4-inch)"
-  _shoot en fr ja
+  _shoot_screens_for_all_languages
 
-  # We to build again with the iPad device family because otherwise Instruments
-  # will build and run for iPhone even though the simulator says otherwise.
+  # We have to build again with the iPad device family because otherwise
+  # Instruments will only launch the app as we built it before, for the iPhone
+  # simulator.
   _xcode build TARGETED_DEVICE_FAMILY=2
 
   bin/choose_sim_device "iPad (Retina)"
-  _shoot en fr ja
+  _shoot_screens_for_all_languages
 
   bin/close_sim
 
@@ -77,11 +84,12 @@ function _check_destination {
   fi
 }
 
-function _shoot {
-  # Takes the sim device type and a language code, runs the screenshot script,
-  # and then copies over the screenshots to the destination
+function _shoot_screens_for_all_languages {
+  # Loop over all the $languages (set at the top of the script) and execute the
+  # automation screen for each one, copying the screenshots to the destination
+  # each time
 
-  for language in $*; do
+  for language in $languages; do
     _clean_trace_results_dir
     bin/choose_sim_language $language
     _run_automation "automation/shoot_the_screens.js"

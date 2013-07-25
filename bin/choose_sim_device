@@ -34,13 +34,12 @@ often enough that I chose to use this menu-selection route.
 
 *)
 
--- START:choose.sim.device
 on run argv
   set simType to item 1 of argv
 
-  tell application "iPhone Simulator" to activate
+  activate application "iPhone Simulator"
   tell application "System Events"
-    tell process "iPhone Simulator"
+    tell process "iOS Simulator"
       tell menu bar 1
         -- Hardware menu bar item
         tell menu bar item 5
@@ -58,15 +57,12 @@ on run argv
       end tell
     end tell
   end tell
-  -- END:choose.sim.device
 
   -- Need to show the simulator again after changing device,
   -- or else the simulator be hidden when launched by instruments
   -- for some odd reason.
   tell application "System Events"
-    set visible of process "iPhone Simulator" to true
+    set visible of process "iOS Simulator" to true
   end tell
 
-  -- START:choose.sim.device
 end run
--- END:choose.sim.device

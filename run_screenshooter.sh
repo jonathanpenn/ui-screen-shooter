@@ -30,6 +30,7 @@ destination="$1"
 languages="en fr ja"
 
 function main {
+  xcode_version=`xcodebuild -version | grep "Xcode" | sed 's/Xcode //g' | cut -c 1`
   _check_destination
 
   # Attempt to save and restore the language the simulator SDKs were in before
@@ -46,10 +47,20 @@ function main {
   # the parts that don't matter for you.
   _xcode clean build TARGETED_DEVICE_FAMILY=1
 
-  bin/choose_sim_device "iPhone (Retina 3.5-inch)"
+  if [ $xcode_version == 5 ]
+  then
+    bin/choose_sim_device "iPhone Retina (3.5-inch)"
+  else
+    bin/choose_sim_device "iPhone (Retina 3.5-inch)"
+  fi
   _shoot_screens_for_all_languages
 
-  bin/choose_sim_device "iPhone (Retina 4-inch)"
+  if [ $xcode_version == 5 ]
+  then
+    bin/choose_sim_device "iPhone Retina (4-inch)"
+  else
+    bin/choose_sim_device "iPhone (Retina 4-inch)"
+  fi
   _shoot_screens_for_all_languages
 
   # We have to build again with the iPad device family because otherwise
@@ -57,7 +68,12 @@ function main {
   # simulator.
   _xcode build TARGETED_DEVICE_FAMILY=2
 
-  bin/choose_sim_device "iPad (Retina)"
+  if [ $xcode_version == 5 ]
+  then
+    bin/choose_sim_device "iPad Retina"
+  else
+    bin/choose_sim_device "iPad (Retina)"
+  fi
   _shoot_screens_for_all_languages
 
   bin/close_sim

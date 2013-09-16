@@ -30,7 +30,7 @@ destination="$1"
 languages="en fr ja"
 
 # The iOS version we want to run the script against
-ios_version="7.0"
+ios_version="6.1"
 
 function main {
   xcode_version=`xcodebuild -version | grep "Xcode" | sed 's/Xcode //g' | cut -c 1`

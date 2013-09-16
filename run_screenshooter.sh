@@ -29,7 +29,11 @@ destination="$1"
 # The locale identifiers for the languages you want to shoot
 languages="en fr ja"
 
+# The iOS version we want to run the script against
+ios_version="7.0"
+
 function main {
+  xcode_version=`xcodebuild -version | grep "Xcode" | sed 's/Xcode //g' | cut -c 1`
   _check_destination
 
   # Attempt to save and restore the language the simulator SDKs were in before
@@ -46,10 +50,20 @@ function main {
   # the parts that don't matter for you.
   _xcode clean build TARGETED_DEVICE_FAMILY=1
 
-  bin/choose_sim_device "iPhone (Retina 3.5-inch)"
+  if [ $xcode_version == 5 ]
+  then
+    bin/choose_sim_device_xcode5 "iPhone Retina (3.5-inch)" $ios_version
+  else
+    bin/choose_sim_device "iPhone (Retina 3.5-inch)"
+  fi
   _shoot_screens_for_all_languages
 
-  bin/choose_sim_device "iPhone (Retina 4-inch)"
+  if [ $xcode_version == 5 ]
+  then
+    bin/choose_sim_device_xcode5 "iPhone Retina (4-inch)" $ios_version
+  else
+    bin/choose_sim_device "iPhone (Retina 4-inch)"
+  fi
   _shoot_screens_for_all_languages
 
   # We have to build again with the iPad device family because otherwise
@@ -57,7 +71,12 @@ function main {
   # simulator.
   _xcode build TARGETED_DEVICE_FAMILY=2
 
-  bin/choose_sim_device "iPad (Retina)"
+  if [ $xcode_version == 5 ]
+  then
+    bin/choose_sim_device_xcode5 "iPad Retina" $ios_version
+  else
+    bin/choose_sim_device "iPad (Retina)"
+  fi
   _shoot_screens_for_all_languages
 
   bin/close_sim
@@ -107,7 +126,7 @@ function _xcode {
   #
   # Use `man xcodebuild` for more information on how to build your project.
 
-  xcodebuild -sdk iphonesimulator \
+  xcodebuild -sdk "iphonesimulator$ios_version" \
     CONFIGURATION_BUILD_DIR=$build_dir \
     PRODUCT_NAME=app \
     $*

@@ -29,6 +29,9 @@ destination="$1"
 # The locale identifiers for the languages you want to shoot
 languages="en fr ja"
 
+# The iOS version we want to run the script against
+ios_version="7.0"
+
 function main {
   _check_destination
 
@@ -45,19 +48,17 @@ function main {
   # If your app isn't universal and only on iPhone or iPad, then you can remove
   # the parts that don't matter for you.
   _xcode clean build TARGETED_DEVICE_FAMILY=1
-
-  bin/choose_sim_device "iPhone (Retina 3.5-inch)"
+  bin/choose_sim_device "iPhone Retina (3.5-inch)" $ios_version
   _shoot_screens_for_all_languages
 
-  bin/choose_sim_device "iPhone (Retina 4-inch)"
+  bin/choose_sim_device "iPhone Retina (4-inch)" $ios_version
   _shoot_screens_for_all_languages
 
   # We have to build again with the iPad device family because otherwise
   # Instruments will only launch the app as we built it before, for the iPhone
   # simulator.
   _xcode build TARGETED_DEVICE_FAMILY=2
-
-  bin/choose_sim_device "iPad (Retina)"
+  bin/choose_sim_device "iPad Retina" $ios_version
   _shoot_screens_for_all_languages
 
   bin/close_sim
@@ -107,7 +108,7 @@ function _xcode {
   #
   # Use `man xcodebuild` for more information on how to build your project.
 
-  xcodebuild -sdk iphonesimulator \
+  xcodebuild -sdk "iphonesimulator$ios_version" \
     CONFIGURATION_BUILD_DIR=$build_dir \
     PRODUCT_NAME=app \
     $*

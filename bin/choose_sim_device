@@ -36,6 +36,7 @@ often enough that I chose to use this menu-selection route.
 
 on run argv
   set simType to item 1 of argv
+  set iosVersion to item 2 of argv
 
   activate application "iPhone Simulator"
   tell application "System Events"
@@ -49,7 +50,18 @@ on run argv
             tell menu item 1
               -- Device sub menu
               tell menu 1
-                click menu item simType
+                tell menu item simType
+                  set iosVersions to value of attribute "AXTitle" of every menu item of menu simType
+                  repeat with iosVersionMenu in iosVersions
+                    if iosVersionMenu contains iosVersion then
+                      -- iOS Version
+                      click menu item iosVersionMenu of menu simType
+                      exit repeat
+                    else
+
+                    end if
+                  end repeat
+                end tell
               end tell
             end tell
           end tell

@@ -30,10 +30,9 @@ destination="$1"
 languages="en fr ja"
 
 # The iOS version we want to run the script against
-ios_version="6.1"
+ios_version="7.0"
 
 function main {
-  xcode_version=`xcodebuild -version | grep "Xcode" | sed 's/Xcode //g' | cut -c 1`
   _check_destination
 
   # Attempt to save and restore the language the simulator SDKs were in before
@@ -49,34 +48,17 @@ function main {
   # If your app isn't universal and only on iPhone or iPad, then you can remove
   # the parts that don't matter for you.
   _xcode clean build TARGETED_DEVICE_FAMILY=1
-
-  if [ $xcode_version == 5 ]
-  then
-    bin/choose_sim_device_xcode5 "iPhone Retina (3.5-inch)" $ios_version
-  else
-    bin/choose_sim_device "iPhone (Retina 3.5-inch)"
-  fi
+  bin/choose_sim_device "iPhone Retina (3.5-inch)" $ios_version
   _shoot_screens_for_all_languages
 
-  if [ $xcode_version == 5 ]
-  then
-    bin/choose_sim_device_xcode5 "iPhone Retina (4-inch)" $ios_version
-  else
-    bin/choose_sim_device "iPhone (Retina 4-inch)"
-  fi
+  bin/choose_sim_device "iPhone Retina (4-inch)" $ios_version
   _shoot_screens_for_all_languages
 
   # We have to build again with the iPad device family because otherwise
   # Instruments will only launch the app as we built it before, for the iPhone
   # simulator.
   _xcode build TARGETED_DEVICE_FAMILY=2
-
-  if [ $xcode_version == 5 ]
-  then
-    bin/choose_sim_device_xcode5 "iPad Retina" $ios_version
-  else
-    bin/choose_sim_device "iPad (Retina)"
-  fi
+  bin/choose_sim_device "iPad Retina" $ios_version
   _shoot_screens_for_all_languages
 
   bin/close_sim

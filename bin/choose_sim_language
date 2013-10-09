@@ -72,7 +72,7 @@ function _print_current_languages {
 }
 
 function _plistbuddy {
-  /usr/libexec/PlistBuddy $*
+  ( /usr/libexec/PlistBuddy $* ) || echo "Not finding PlistBuddy where I thought it would be."
 }
 
 function _close_sim {

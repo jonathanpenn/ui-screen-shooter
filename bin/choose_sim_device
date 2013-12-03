@@ -51,16 +51,22 @@ on run argv
               -- Device sub menu
               tell menu 1
                 tell menu item simType
-                  set iosVersions to value of attribute "AXTitle" of every menu item of menu simType
-                  repeat with iosVersionMenu in iosVersions
-                    if iosVersionMenu contains iosVersion then
-                      -- iOS Version
-                      click menu item iosVersionMenu of menu simType
-                      exit repeat
-                    else
+                  try
+                    -- If this has a submenu, then find the iOS version.
+                    set iosVersions to value of attribute "AXTitle" of every menu item of menu simType
+                    repeat with iosVersionMenu in iosVersions
+                      if iosVersionMenu contains iosVersion then
+                        -- iOS Version
+                        click menu item iosVersionMenu of menu simType
+                        exit repeat
+                      else
 
-                    end if
-                  end repeat
+                      end if
+                    end repeat
+                  on error errMsg
+                    -- If this is not a submenu, then just click.
+                    click
+                  end try
                 end tell
               end tell
             end tell

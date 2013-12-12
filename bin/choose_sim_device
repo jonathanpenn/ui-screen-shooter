@@ -38,7 +38,8 @@ on run argv
   set simType to item 1 of argv
   set iosVersion to item 2 of argv
 
-  activate application "iPhone Simulator"
+  set xcodePath to do shell script "xcode-select -p"
+  activate application (xcodePath & "Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone Simulator.app/Contents/MacOS/iPhone Simulator")
   tell application "System Events"
     tell process "iOS Simulator"
       tell menu bar 1

@@ -27,6 +27,7 @@ set -e
 destination="$1"
 
 # The locale identifiers for the languages you want to shoot
+# see https://gist.github.com/jacobbubu/1836273
 languages="en_US fr ja"
 
 # The iOS version we want to run the script against

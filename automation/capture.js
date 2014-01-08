@@ -40,8 +40,8 @@ function captureLocalizedScreenshot(name) {
   var rect = target.rect();
 
   if (model.match(/iPhone/)) {
-    if (rect.size.height > 480) model = "iphone5";
-    else model = "iphone";
+    if (rect.size.height > 480) model = "ios4in";
+    else model = "ios35in";
   } else {
     model = "ipad";
   }

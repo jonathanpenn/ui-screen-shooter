@@ -19,9 +19,9 @@ To run the demonstration, type `./run_screenshooter.sh ~/Desktop/screenshots` to
 
 By default each screenshot is named like so:
 
-    en-iphone5-portrait-screen1.png
+    en-ipad-portrait-screen1.png
 
-The first part is the locale identifier, the second is the device (iphone, iphone5, ipad), the third is the device orientation, and the fourth is an identifier that you choose for each screen shot when you call `captureLocalizedScreenshot()`.
+The first part is the locale identifier, the second is the device (ios35, ios4, ipad), the third is the device orientation, and the fourth is an identifier that you choose for each screen shot when you call `captureLocalizedScreenshot()`.
 
 ## Usage
 

@@ -40,10 +40,10 @@ function captureLocalizedScreenshot(name) {
   var rect = target.rect();
 
   if (model.match(/iPhone/)) {
-    if (rect.size.height > 480) model = "ios4in";
-    else model = "ios35in";
+    if (rect.size.height > 480) model = "iOS-4-in";
+    else model = "iOS-3.5-in";
   } else {
-    model = "ipad";
+    model = "iOS-iPad";
   }
 
   var orientation = "portrait";

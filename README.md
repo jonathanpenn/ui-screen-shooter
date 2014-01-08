@@ -21,7 +21,7 @@ By default each screenshot is named like so:
 
     en-ipad-portrait-screen1.png
 
-The first part is the locale identifier, the second is the device (ios35in, ios4in, ipad), the third is the device orientation, and the fourth is an identifier that you choose for each screen shot when you call `captureLocalizedScreenshot()`.
+The first part is the locale identifier, the second is the device (iOS-3.5-in, iOS-4-in, iOS-iPad), the third is the device orientation, and the fourth is an identifier that you choose for each screen shot when you call `captureLocalizedScreenshot()`.
 
 ## Usage
 

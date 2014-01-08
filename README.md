@@ -25,7 +25,7 @@ The first part is the locale identifier, the second is the device (ios35, ios4, 
 
 ## Usage
 
-To use UI Screen Shooter, copy the files (except the Hello World sample app) next to your project files. You may need to change the "Release" build configuration to add i386 to the VALID_ARCHITECTURES for this to work. Then play with the script `automation/shoot_the_screens.js` to simulate the user interaction you want. ((CONTRIBUTORS, PLEASE HELP EXPAND THIS SECTION WITH YOUR INTEGRATION ADVICE.))
+To use UI Screen Shooter, copy the files (except the Hello World sample app) next to your project files. You may need to change the "Release" build configuration to add i386 to the VALID_ARCHITECTURES for this to work. Then play with the script `automation/shoot_the_screens.js` to simulate the user interaction you want. ((CONTRIBUTORS, PLEASE HELP EXPAND THIS SECTION WITH YOUR INTEGRATION ADVICE.)) After your screen shots are saved, see https://github.com/rhaining/itc-localized-screenshot-uploader about uploading them in batch to iTunes connect.
 
 ## How It Works
 

@@ -39,7 +39,7 @@ on run argv
   set iosVersion to item 2 of argv
 
   set xcodePath to do shell script "xcode-select -p"
-  activate application (xcodePath & "Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone Simulator.app/Contents/MacOS/iPhone Simulator")
+  activate application (xcodePath & "/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone Simulator.app/Contents/MacOS/iPhone Simulator")
   tell application "System Events"
     tell process "iOS Simulator"
       tell menu bar 1

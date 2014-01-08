@@ -32,6 +32,9 @@ languages="en_US fr ja"
 # The iOS version we want to run the script against
 ios_version="7.0"
 
+# The iOS devices we want to run, can include: iphone4 iphone5 ipad
+ios_devices="iphone4 iphone5 ipad"
+
 function main {
   _check_destination
 
@@ -41,25 +44,29 @@ function main {
   original_language=$(bin/choose_sim_language)
   echo "Saving original language $original_language..."
 
-  # We have to build and explicitly set the device family to iPhone because
-  # otherwise Instruments will always try to launch a universal app on the iPad
-  # simulator.
-  #
-  # If your app isn't universal and only on iPhone or iPad, then you can remove
-  # the parts that don't matter for you.
-  _xcode clean build TARGETED_DEVICE_FAMILY=1
-  bin/choose_sim_device "iPhone Retina (3.5-inch)" $ios_version
-  _shoot_screens_for_all_languages
+  # We have to build and explicitly set the device family because otherwise 
+  # Instruments will always launch a universal app on the iPad simulator.
 
-  bin/choose_sim_device "iPhone Retina (4-inch)" $ios_version
-  _shoot_screens_for_all_languages
-
-  # We have to build again with the iPad device family because otherwise
-  # Instruments will only launch the app as we built it before, for the iPhone
-  # simulator.
-  _xcode build TARGETED_DEVICE_FAMILY=2
-  bin/choose_sim_device "iPad Retina" $ios_version
-  _shoot_screens_for_all_languages
+  if [[ "$ios_devices" == *iphone* ]]
+  then
+    _xcode clean build TARGETED_DEVICE_FAMILY=1
+    if [[ "$ios_devices" == *iphone4* ]]
+    then
+      bin/choose_sim_device "iPhone Retina (3.5-inch)" $ios_version
+      _shoot_screens_for_all_languages
+    fi
+    if [[ "$ios_devices" == *iphone5* ]]
+    then
+      bin/choose_sim_device "iPhone Retina (4-inch)" $ios_version
+      _shoot_screens_for_all_languages
+    fi
+  fi
+  if [[ "$ios_devices" == *ipad* ]]
+  then
+    _xcode build TARGETED_DEVICE_FAMILY=2
+    bin/choose_sim_device "iPad Retina" $ios_version
+    _shoot_screens_for_all_languages
+  fi
 
   bin/close_sim
 
@@ -80,9 +87,9 @@ function _check_destination {
   # Abort if the destination directory already exists. Better safe than sorry.
 
   if [ -z "$destination" ]; then
-    echo "usage: run_screenshooter.sh destination_directory"
-    exit 1
-  elif [ -d "$destination" ]; then
+    destination="$HOME/Desktop/screenshots"
+  fi
+  if [ -d "$destination" ]; then
     echo "Destination directory \"$destination\" already exists! Aborting."
     exit 1
   fi

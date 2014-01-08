@@ -27,8 +27,9 @@ set -e
 destination="$1"
 
 # The locale identifiers for the languages you want to shoot
-# see https://gist.github.com/jacobbubu/1836273
-languages="en_US fr ja"
+# Use the format like en-US cmn-Hans for filenames compatible with iTunes
+# connect upload tool
+languages="en-US cmn-Hans"
 
 # The iOS version we want to run the script against
 ios_version="7.0"

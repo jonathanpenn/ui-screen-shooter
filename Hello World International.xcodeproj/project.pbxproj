@@ -23,14 +23,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AB84220C162B03A700DE1074 /* UI ScreenShooter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UI ScreenShooter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB84220C162B03A700DE1074 /* Hello World International.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hello World International.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB842210162B03A700DE1074 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AB842212162B03A700DE1074 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AB842214162B03A700DE1074 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		AB842218162B03A700DE1074 /* UI ScreenShooter-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UI ScreenShooter-Info.plist"; sourceTree = "<group>"; };
+		AB842218162B03A700DE1074 /* Hello World International-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Hello World International-Info.plist"; sourceTree = "<group>"; };
 		AB84221A162B03A700DE1074 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AB84221C162B03A700DE1074 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		AB84221E162B03A700DE1074 /* UI ScreenShooter-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UI ScreenShooter-Prefix.pch"; sourceTree = "<group>"; };
+		AB84221E162B03A700DE1074 /* Hello World International-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hello World International-Prefix.pch"; sourceTree = "<group>"; };
 		AB84221F162B03A700DE1074 /* NLAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NLAppDelegate.h; sourceTree = "<group>"; };
 		AB842220162B03A700DE1074 /* NLAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NLAppDelegate.m; sourceTree = "<group>"; };
 		AB842222162B03A700DE1074 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -65,7 +65,7 @@
 		AB842201162B03A700DE1074 = {
 			isa = PBXGroup;
 			children = (
-				AB842216162B03A700DE1074 /* UI ScreenShooter */,
+				AB842216162B03A700DE1074 /* Hello World International */,
 				AB84220F162B03A700DE1074 /* Frameworks */,
 				AB84220D162B03A700DE1074 /* Products */,
 			);
@@ -74,7 +74,7 @@
 		AB84220D162B03A700DE1074 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AB84220C162B03A700DE1074 /* UI ScreenShooter.app */,
+				AB84220C162B03A700DE1074 /* Hello World International.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -89,7 +89,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		AB842216162B03A700DE1074 /* UI ScreenShooter */ = {
+		AB842216162B03A700DE1074 /* Hello World International */ = {
 			isa = PBXGroup;
 			children = (
 				AB84221F162B03A700DE1074 /* NLAppDelegate.h */,
@@ -101,17 +101,17 @@
 				AB84222F162B03A700DE1074 /* NLLanguageViewController.m */,
 				AB842217162B03A700DE1074 /* Supporting Files */,
 			);
-			path = "UI ScreenShooter";
+			path = "Hello World International";
 			sourceTree = "<group>";
 		};
 		AB842217162B03A700DE1074 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				AB842236162B071800DE1074 /* Localizable.strings */,
-				AB842218162B03A700DE1074 /* UI ScreenShooter-Info.plist */,
+				AB842218162B03A700DE1074 /* Hello World International-Info.plist */,
 				AB842219162B03A700DE1074 /* InfoPlist.strings */,
 				AB84221C162B03A700DE1074 /* main.m */,
-				AB84221E162B03A700DE1074 /* UI ScreenShooter-Prefix.pch */,
+				AB84221E162B03A700DE1074 /* Hello World International-Prefix.pch */,
 				AB842222162B03A700DE1074 /* Default.png */,
 				AB842224162B03A700DE1074 /* Default@2x.png */,
 				AB842226162B03A700DE1074 /* Default-568h@2x.png */,
@@ -122,9 +122,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AB84220B162B03A700DE1074 /* UI ScreenShooter */ = {
+		AB84220B162B03A700DE1074 /* Hello World International */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AB842233162B03A700DE1074 /* Build configuration list for PBXNativeTarget "UI ScreenShooter" */;
+			buildConfigurationList = AB842233162B03A700DE1074 /* Build configuration list for PBXNativeTarget "Hello World International" */;
 			buildPhases = (
 				AB842208162B03A700DE1074 /* Sources */,
 				AB842209162B03A700DE1074 /* Frameworks */,
@@ -134,9 +134,9 @@
 			);
 			dependencies = (
 			);
-			name = "UI ScreenShooter";
-			productName = "UI ScreenShooter";
-			productReference = AB84220C162B03A700DE1074 /* UI ScreenShooter.app */;
+			name = "Hello World International";
+			productName = "Hello World International";
+			productReference = AB84220C162B03A700DE1074 /* Hello World International.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -149,7 +149,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Cocoa Manifest";
 			};
-			buildConfigurationList = AB842206162B03A700DE1074 /* Build configuration list for PBXProject "UI ScreenShooter" */;
+			buildConfigurationList = AB842206162B03A700DE1074 /* Build configuration list for PBXProject "Hello World International" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -164,7 +164,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AB84220B162B03A700DE1074 /* UI ScreenShooter */,
+				AB84220B162B03A700DE1074 /* Hello World International */,
 			);
 		};
 /* End PBXProject section */
@@ -285,9 +285,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "UI ScreenShooter/UI ScreenShooter-Prefix.pch";
-				INFOPLIST_FILE = "UI ScreenShooter/UI ScreenShooter-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Hello World International/Hello World International-Prefix.pch";
+				INFOPLIST_FILE = "Hello World International/Hello World International-Info.plist";
+				PRODUCT_NAME = "Hello World International";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -296,9 +296,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "UI ScreenShooter/UI ScreenShooter-Prefix.pch";
-				INFOPLIST_FILE = "UI ScreenShooter/UI ScreenShooter-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Hello World International/Hello World International-Prefix.pch";
+				INFOPLIST_FILE = "Hello World International/Hello World International-Info.plist";
+				PRODUCT_NAME = "Hello World International";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -306,7 +306,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AB842206162B03A700DE1074 /* Build configuration list for PBXProject "UI ScreenShooter" */ = {
+		AB842206162B03A700DE1074 /* Build configuration list for PBXProject "Hello World International" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AB842231162B03A700DE1074 /* Debug */,
@@ -315,7 +315,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AB842233162B03A700DE1074 /* Build configuration list for PBXNativeTarget "UI ScreenShooter" */ = {
+		AB842233162B03A700DE1074 /* Build configuration list for PBXNativeTarget "Hello World International" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AB842234162B03A700DE1074 /* Debug */,

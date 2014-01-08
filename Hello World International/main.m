@@ -1,6 +1,6 @@
 //
 //  main.m
-//  UI ScreenShooter
+//  Hello World International
 //
 //  Created by Jonathan Penn on 10/14/12.
 //  Copyright (c) 2012 Cocoa Manifest. All rights reserved.

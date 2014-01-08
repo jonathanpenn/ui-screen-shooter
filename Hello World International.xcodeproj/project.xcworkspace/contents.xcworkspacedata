@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:UI ScreenShooter.xcodeproj">
+      location = "self:Hello World International.xcodeproj">
    </FileRef>
 </Workspace>

@@ -7,13 +7,13 @@ You can see the script run against one of [my apps](http://readmoreapp.com) in [
 
   [readmorevid]: http://nl1551.s3.amazonaws.com/cocoamanifest.net/2012/readmore-screenshots.mov
 
-## Installation
+## Prerequesites
 
 First, you need to get Xcode from the App Store. It's free and comes with (almost) everything you need. Once you have Xcode installed, you need to install the command line tools. Choose "Preferences" from the "Xcode" menu. Choose the "Downloads" and choose the "Components" sub tab. You'll see "Command Line Tools" in the list. Click the install button next to it and wait until it finishes setting up.
 
 Pull down this repository and change to the directory in the terminal.
 
-## Usage
+## Demonstration
 
 To run the demonstration, type `./run_screenshooter.sh ~/Desktop/screenshots` to tell it where to put the final set of screen shots. After a few minutes, you can open the destination directory and see all the languages, devices types and screen sizes as PNGs.
 
@@ -22,6 +22,10 @@ By default each screenshot is named like so:
     en-iphone5-portrait-screen1.png
 
 The first part is the locale identifier, the second is the device (iphone, iphone5, ipad), the third is the device orientation, and the fourth is an identifier that you choose for each screen shot when you call `captureLocalizedScreenshot()`.
+
+## Usage
+
+To use UI Screen Shooter, copy the files (except the Hello World sample app) next to your project files. You may need to change the "Release" build configuration to add i386 to the VALID_ARCHITECTURES for this to work. Then play with the script `automation/shoot_the_screens.js` to simulate the user interaction you want. ((CONTRIBUTORS, PLEASE HELP EXPAND THIS SECTION WITH YOUR INTEGRATION ADVICE.))
 
 ## How It Works
 

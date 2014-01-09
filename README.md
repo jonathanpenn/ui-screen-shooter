@@ -19,13 +19,13 @@ To run the demonstration, type `./run_screenshooter.sh ~/Desktop/screenshots` to
 
 By default each screenshot is named like so:
 
-    en-iphone5-portrait-screen1.png
+    en-ipad-portrait-screen1.png
 
-The first part is the locale identifier, the second is the device (iphone, iphone5, ipad), the third is the device orientation, and the fourth is an identifier that you choose for each screen shot when you call `captureLocalizedScreenshot()`.
+The first part is the locale identifier, the second is the device (iOS-3.5-in, iOS-4-in, iOS-iPad), the third is the device orientation, and the fourth is an identifier that you choose for each screen shot when you call `captureLocalizedScreenshot()`.
 
 ## Usage
 
-To use UI Screen Shooter, copy the files (except the Hello World sample app) next to your project files. You may need to change the "Release" build configuration to add i386 to the VALID_ARCHITECTURES for this to work. Then play with the script `automation/shoot_the_screens.js` to simulate the user interaction you want. ((CONTRIBUTORS, PLEASE HELP EXPAND THIS SECTION WITH YOUR INTEGRATION ADVICE.))
+To use UI Screen Shooter, copy the files (except the Hello World sample app) next to your project files. You may need to change the "Release" build configuration to add i386 to the VALID_ARCHITECTURES for this to work. Then play with the script `automation/shoot_the_screens.js` to simulate the user interaction you want. ((CONTRIBUTORS, PLEASE HELP EXPAND THIS SECTION WITH YOUR INTEGRATION ADVICE.)) After your screen shots are saved, see https://github.com/rhaining/itc-localized-screenshot-uploader about uploading them in batch to iTunes connect.
 
 ## How It Works
 

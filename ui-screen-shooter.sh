@@ -27,13 +27,15 @@ set -e
 destination="$1"
 
 # The locale identifiers for the languages you want to shoot
-languages="en_US fr ja"
+# Use the format like en-US cmn-Hans for filenames compatible with iTunes
+# connect upload tool
+languages="en-US cmn-Hans"
 
 # The iOS version we want to run the script against
 ios_version="7.0"
 
-# The iOS devices we want to run, can include: iphone4 iphone5 ipad
-ios_devices="iphone4 iphone5 ipad"
+# The iOS devices we want to run, can include: iOS-3.5-in, iOS-4-in and/or iOS-iPad
+ios_devices="iOS-3.5-in iOS-4-in iOS-iPad"
 
 function main {
   _check_destination
@@ -47,21 +49,21 @@ function main {
   # We have to build and explicitly set the device family because otherwise 
   # Instruments will always launch a universal app on the iPad simulator.
 
-  if [[ "$ios_devices" == *iphone* ]]
+  if [[ "$ios_devices" == *in* ]]
   then
     _xcode clean build TARGETED_DEVICE_FAMILY=1
-    if [[ "$ios_devices" == *iphone4* ]]
+    if [[ "$ios_devices" == *3.5-in* ]]
     then
       bin/choose_sim_device "iPhone Retina (3.5-inch)" $ios_version
       _shoot_screens_for_all_languages
     fi
-    if [[ "$ios_devices" == *iphone5* ]]
+    if [[ "$ios_devices" == *4-in* ]]
     then
       bin/choose_sim_device "iPhone Retina (4-inch)" $ios_version
       _shoot_screens_for_all_languages
     fi
   fi
-  if [[ "$ios_devices" == *ipad* ]]
+  if [[ "$ios_devices" == *iPad* ]]
   then
     _xcode build TARGETED_DEVICE_FAMILY=2
     bin/choose_sim_device "iPad Retina" $ios_version

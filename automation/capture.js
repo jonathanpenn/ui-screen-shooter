@@ -53,5 +53,5 @@ function captureLocalizedScreenshot(name) {
     preferencesValueForKey("AppleLanguages")[0];
 
   var parts = [language, model, orientation, name];
-  target.captureScreenWithName(parts.join("+"));
+  target.captureScreenWithName(parts.join("___"));
 }

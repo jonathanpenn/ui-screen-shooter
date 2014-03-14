@@ -23,9 +23,8 @@
 // Tells the local target to take a screen shot and names the file after the
 // state of the simulator like so:
 //
-//   [lang]-[device]-[orientation]-[name].png
+//   [device]-[orientation]-[name].png
 //
-// `lang` is the locale of the simulator at the time this is run
 // `device` is the model of the device (iphone, iphone5, ipad)
 // `orientation` is...well...duh!
 // `name` is what you passed in to the function
@@ -49,9 +48,7 @@ function captureLocalizedScreenshot(name) {
   var orientation = "portrait";
   if (rect.size.height < rect.size.width) orientation = "landscape";
 
-  var language = target.frontMostApp().
-    preferencesValueForKey("AppleLanguages")[0];
-
-  var parts = [language, model, orientation, name];
+  var parts = [model, orientation, name];
   target.captureScreenWithName(parts.join("___"));
 }
+

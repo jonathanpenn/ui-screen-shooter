@@ -29,51 +29,32 @@ destination="$1"
 # The locale identifiers for the languages you want to shoot
 # Use the format like en-US cmn-Hans for filenames compatible with iTunes
 # connect upload tool
-languages="en-US cmn-Hans"
+languages="en-US fr jp"
 
-# The iOS version we want to run the script against
-ios_version="7.0"
+# The simulators we want to run the script against, declared as a Bash array.
+# Run `instruments -w help` to get a list of all the possible string values.
+declare -a simulators=(
+"iPhone Retina (3.5-inch) - Simulator - iOS 7.1"
+"iPhone Retina (4-inch) - Simulator - iOS 7.1"
+"iPad Retina - Simulator - iOS 7.1"
+)
 
 # The iOS devices we want to run, can include: iOS-3.5-in, iOS-4-in and/or iOS-iPad
 ios_devices="iOS-3.5-in iOS-4-in iOS-iPad"
 
 function main {
   _check_destination
+  _xcode clean build
 
-  # Attempt to save and restore the language the simulator SDKs were in before
-  # running this. If you want to explicitly set the language, use the
-  # `bin/choose_sim_language [lang]` after you run this script.
-  original_language=$(bin/choose_sim_language)
-  echo "Saving original language $original_language..."
+  for simulator in "${simulators[@]}"; do
+    for language in $languages; do
+      _clean_trace_results_dir
+      _run_automation "automation/shoot_the_screens.js" "$language" "$simulator"
+      _copy_screenshots "$language"
+    done
+  done
 
-  # We have to build and explicitly set the device family because otherwise 
-  # Instruments will always launch a universal app on the iPad simulator.
-
-  if [[ "$ios_devices" == *in* ]]
-  then
-    _xcode clean build TARGETED_DEVICE_FAMILY=1
-    if [[ "$ios_devices" == *3.5-in* ]]
-    then
-      bin/choose_sim_device "iPhone Retina (3.5-inch)" $ios_version
-      _shoot_screens_for_all_languages
-    fi
-    if [[ "$ios_devices" == *4-in* ]]
-    then
-      bin/choose_sim_device "iPhone Retina (4-inch)" $ios_version
-      _shoot_screens_for_all_languages
-    fi
-  fi
-  if [[ "$ios_devices" == *iPad* ]]
-  then
-    _xcode build TARGETED_DEVICE_FAMILY=2
-    bin/choose_sim_device "iPad Retina" $ios_version
-    _shoot_screens_for_all_languages
-  fi
-
-  bin/close_sim
-
-  echo "Restoring original language $original_language..."
-  bin/choose_sim_language $original_language
+  _close_sim
 
   echo
   echo "Screenshots complete!"
@@ -95,19 +76,6 @@ function _check_destination {
     echo "Destination directory \"$destination\" already exists! Aborting."
     exit 1
   fi
-}
-
-function _shoot_screens_for_all_languages {
-  # Loop over all the $languages (set at the top of the script) and execute the
-  # automation screen for each one, copying the screenshots to the destination
-  # each time
-
-  for language in $languages; do
-    _clean_trace_results_dir
-    bin/choose_sim_language $language
-    _run_automation "automation/shoot_the_screens.js"
-    _copy_screenshots
-  done
 }
 
 function _xcode {
@@ -135,26 +103,46 @@ function _clean_trace_results_dir {
 function _run_automation {
   # Runs the UI Automation JavaScript file that actually takes the screenshots.
 
+  automation_script="$1"
+  language="$2"
+  simulator="$3"
+
+  echo "Running automation script \"$automation_script\"
+          for \"$simulator\"
+          in language \"${language}\"..."
+
   dev_tools_dir=`xcode-select -print-path`
   tracetemplate="$dev_tools_dir/../Applications/Instruments.app/Contents/PlugIns/AutomationInstrument.bundle/Contents/Resources/Automation.tracetemplate"
 
   # Check out the `unix_instruments` script to see why we need this wrapper.
   bin/unix_instruments \
+    -w "$simulator" \
     -D "$trace_results_dir/trace" \
     -t "$tracetemplate" \
     $bundle_dir \
     -e UIARESULTSPATH "$trace_results_dir" \
-    -e UIASCRIPT "$1" \
+    -e UIASCRIPT "$automation_script" \
+    -AppleLanguages "($language)" \
+    -AppleLocale "$language" \
     $*
 }
 
 function _copy_screenshots {
   # Since we're always clearing out the trace results before every run, we can
   # assume that any screenshots were saved in the "Run 1" directory. Copy them
-  # to the destination!
+  # to the destination's language folder!
 
-  mkdir -p "$destination"
-  cp $trace_results_dir/Run\ 1/*.png $destination
+  language="$1"
+
+  mkdir -p "$destination/$language"
+  cp $trace_results_dir/Run\ 1/*.png "$destination/$language"
+}
+
+function _close_sim {
+  # I know, I know. It says "iPhone Simulator". For some reason,
+  # that's the only way Applescript can identify it.
+  osascript -e "tell application \"iPhone Simulator\" to quit"
 }
 
 main
+

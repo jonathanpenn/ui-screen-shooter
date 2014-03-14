@@ -288,6 +288,8 @@
 				GCC_PREFIX_HEADER = "Hello World International/Hello World International-Prefix.pch";
 				INFOPLIST_FILE = "Hello World International/Hello World International-Info.plist";
 				PRODUCT_NAME = "Hello World International";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -299,6 +301,8 @@
 				GCC_PREFIX_HEADER = "Hello World International/Hello World International-Prefix.pch";
 				INFOPLIST_FILE = "Hello World International/Hello World International-Info.plist";
 				PRODUCT_NAME = "Hello World International";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

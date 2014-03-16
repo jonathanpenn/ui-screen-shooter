@@ -39,9 +39,6 @@ declare -a simulators=(
 "iPad Retina - Simulator - iOS 7.1"
 )
 
-# The iOS devices we want to run, can include: iOS-3.5-in, iOS-4-in and/or iOS-iPad
-ios_devices="iOS-3.5-in iOS-4-in iOS-iPad"
-
 function main {
   _check_destination
   _xcode clean build

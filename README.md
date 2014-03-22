@@ -9,7 +9,13 @@ You can see the script run against one of [my apps](http://readmoreapp.com) in [
 
 ## Prerequesites
 
-First, you need to get Xcode from the App Store. It's free and comes with (almost) everything you need. Once you have Xcode installed, you need to install the command line tools. Choose "Preferences" from the "Xcode" menu. Choose the "Downloads" and choose the "Components" sub tab. You'll see "Command Line Tools" in the list. Click the install button next to it and wait until it finishes setting up.
+First, you need to get Xcode from the App Store. It's free and comes with (almost) everything you need. Once you have Xcode installed, you need to install the command line tools. 
+
+#####Pre Xcode 5
+Choose "Preferences" from the "Xcode" menu. Choose the "Downloads" and choose the "Components" sub tab. You'll see "Command Line Tools" in the list. Click the install button next to it and wait until it finishes setting up.
+
+#####Xcode 5 and later
+You cannot install command line tools through Xcode. Instead, run 'xcode-select --install' in your Terminal, and install command line tools once prompted.
 
 Pull down this repository and change to the directory in the terminal.
 

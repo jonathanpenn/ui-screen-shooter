@@ -1,5 +1,0 @@
-#!/usr/bin/env osascript
-
--- Use AppleScript to tell the simulator to quit
-
-tell application "iPhone Simulator" to quit

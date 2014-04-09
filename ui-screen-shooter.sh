@@ -23,8 +23,9 @@
 # Tell bash that we want the whole script to fail if any part fails.
 set -e
 
-# We require a parameter for where to put the results
+# We require a parameter for where to put the results and the test script
 destination="$1"
+ui_script="$2"
 
 # The locale identifiers for the languages you want to shoot
 # Use the format like en-US cmn-Hans for filenames compatible with iTunes
@@ -41,12 +42,13 @@ declare -a simulators=(
 
 function main {
   _check_destination
+  _check_ui_script
   _xcode clean build
 
   for simulator in "${simulators[@]}"; do
     for language in $languages; do
       _clean_trace_results_dir
-      _run_automation "automation/shoot_the_screens.js" "$language" "$simulator"
+      _run_automation "$ui_script" "$language" "$simulator"
       _copy_screenshots "$language"
     done
   done
@@ -71,6 +73,18 @@ function _check_destination {
   fi
   if [ -d "$destination" ]; then
     echo "Destination directory \"$destination\" already exists! Aborting."
+    exit 1
+  fi
+}
+
+function _check_ui_script {
+  # Abort if the destination directory already exists. Better safe than sorry.
+
+  if [ -z "$ui_script" ]; then
+    ui_script="./shoot_the_screens.js"
+  fi
+  if [ ! -f "$ui_script" ]; then
+    echo "UI script \"$ui_script\" does not exist! Aborting."
     exit 1
   fi
 }
@@ -111,8 +125,9 @@ function _run_automation {
   dev_tools_dir=`xcode-select -print-path`
   tracetemplate="$dev_tools_dir/../Applications/Instruments.app/Contents/PlugIns/AutomationInstrument.bundle/Contents/Resources/Automation.tracetemplate"
 
-  # Check out the `unix_instruments` script to see why we need this wrapper.
-  bin/unix_instruments \
+  # Check out the `unix_instruments.sh` script to see why we need this wrapper.
+  DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+  $DIR/unix_instruments.sh \
     -w "$simulator" \
     -D "$trace_results_dir/trace" \
     -t "$tracetemplate" \

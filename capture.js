@@ -23,9 +23,9 @@
 // Tells the local target to take a screen shot and names the file after the
 // state of the simulator like so:
 //
-//   [device]-[orientation]-[name].png
+//   [model]___[orientation]___[name].png
 //
-// `device` is the model of the device (iphone, iphone5, ipad)
+// `model` is the model of the device (iphone, iphone5, ipad)
 // `orientation` is...well...duh!
 // `name` is what you passed in to the function
 //

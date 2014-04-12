@@ -127,7 +127,7 @@ function _run_automation {
 
   # Check out the `unix_instruments.sh` script to see why we need this wrapper.
   DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-  $DIR/unix_instruments.sh \
+  "$DIR"/unix_instruments.sh \
     -w "$simulator" \
     -D "$trace_results_dir/trace" \
     -t "$tracetemplate" \

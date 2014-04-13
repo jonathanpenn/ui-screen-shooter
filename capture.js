@@ -38,15 +38,15 @@ function captureLocalizedScreenshot(name) {
   var model = target.model();
   var rect = target.rect();
 
+  var orientation = "portrait";
+  if (rect.size.height < rect.size.width) orientation = "landscape";
+  
   if (model.match(/iPhone/)) {
-    if (rect.size.height > 480) model = "iOS-4-in";
+    if ((orientation == "portrait" && rect.size.height > 480) || (orientation == "landscape" && rect.size.width > 480)) model = "iOS-4-in";
     else model = "iOS-3.5-in";
   } else {
     model = "iOS-iPad";
   }
-
-  var orientation = "portrait";
-  if (rect.size.height < rect.size.width) orientation = "landscape";
 
   var parts = [model, orientation, name];
   target.captureScreenWithName(parts.join("___"));

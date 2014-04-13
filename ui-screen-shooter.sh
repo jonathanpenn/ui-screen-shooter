@@ -137,6 +137,8 @@ function _run_automation {
     -AppleLanguages "($language)" \
     -AppleLocale "$language" \
     $*
+    
+    find $trace_results_dir/Run\ 1/ -name *landscape*png -type f -exec sips -r -90 \{\} \;
 }
 
 function _copy_screenshots {

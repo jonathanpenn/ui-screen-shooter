@@ -28,9 +28,9 @@ destination="$1"
 ui_script="$2"
 
 # The locale identifiers for the languages you want to shoot
-# Use the format like en-US cmn-Hans for filenames compatible with iTunes
+# Use the format like en-US zh-Hans for filenames compatible with iTunes
 # connect upload tool
-languages="en-US fr jp"
+languages="en-US fr ja"
 
 # The simulators we want to run the script against, declared as a Bash array.
 # Run `instruments -w help` to get a list of all the possible string values.

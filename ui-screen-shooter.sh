@@ -99,7 +99,7 @@ function _xcode {
   xcodebuild -sdk "iphonesimulator$ios_version" \
     CONFIGURATION_BUILD_DIR=$build_dir \
     PRODUCT_NAME=app \
-    $*
+    "$@"
 }
 
 function _clean_trace_results_dir {
@@ -136,7 +136,7 @@ function _run_automation {
     -e UIASCRIPT "$automation_script" \
     -AppleLanguages "($language)" \
     -AppleLocale "$language" \
-    $*
+    "$@"
     
     find $trace_results_dir/Run\ 1/ -name *landscape*png -type f -exec sips -r -90 \{\} \;
 }

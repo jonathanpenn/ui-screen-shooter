@@ -78,7 +78,7 @@ function _check_destination {
 }
 
 function _check_ui_script {
-  # Abort if the destination directory already exists. Better safe than sorry.
+  # Abort if the UI script does not exist.
 
   if [ -z "$ui_script" ]; then
     ui_script="./shoot_the_screens.js"

@@ -95,11 +95,36 @@ function _xcode {
   # specify them here.
   #
   # Use `man xcodebuild` for more information on how to build your project.
-
-  xcodebuild -sdk "iphonesimulator$ios_version" \
-    CONFIGURATION_BUILD_DIR=$build_dir \
-    PRODUCT_NAME=app \
+  if test -n "$(find . -maxdepth 1 -name '*.xcworkspace' -print -quit)"
+  then
+    base=$(basename *.xcworkspace .xcworkspace)
+	# First build omits PRODUCT_NAME
+	# Do NOT ask me why you need to build this twice for it to work
+	# or how I became to know this fact
+    xcodebuild -sdk "iphonesimulator$ios_version" \
+	  CONFIGURATION_BUILD_DIR="$build_dir/build" \
+	  -workspace $base.xcworkspace -scheme $base -configuration AdHoc \
+	  DSTROOT=$build_dir \
+	  OBJROOT=$build_dir \
+	  SYMROOT=$build_dir \
+      ONLY_ACTIVE_ARCH=NO \
     "$@"
+    xcodebuild -sdk "iphonesimulator$ios_version" \
+	  CONFIGURATION_BUILD_DIR="$build_dir/build" \
+      PRODUCT_NAME=app \
+	  -workspace $base.xcworkspace -scheme $base -configuration AdHoc \
+	  DSTROOT=$build_dir \
+	  OBJROOT=$build_dir \
+	  SYMROOT=$build_dir \
+      ONLY_ACTIVE_ARCH=NO \
+    "$@"
+	cp -r "$build_dir/build/app.app" "$build_dir"
+  else
+    xcodebuild -sdk "iphonesimulator$ios_version" \
+      CONFIGURATION_BUILD_DIR=$build_dir \
+      PRODUCT_NAME=app \
+    "$@"
+  fi
 }
 
 function _clean_trace_results_dir {
@@ -137,8 +162,8 @@ function _run_automation {
     -AppleLanguages "($language)" \
     -AppleLocale "$language" \
     "$@"
-    
-    find $trace_results_dir/Run\ 1/ -name *landscape*png -type f -exec sips -r -90 \{\} \;
+
+  find $trace_results_dir/Run\ 1/ -name *landscape*png -type f -exec sips -r -90 \{\} \;
 }
 
 function _copy_screenshots {

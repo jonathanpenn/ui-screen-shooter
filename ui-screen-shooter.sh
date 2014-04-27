@@ -30,6 +30,8 @@ ui_script="$2"
 # The locale identifiers for the languages you want to shoot
 # Use the format like en-US zh-Hans for filenames compatible with iTunes
 # connect upload tool
+# FYI: get the locale names for you existing app with iTMSTransporter and: 
+# grep locale ~/Desktop/*.itmsp/metadata.xml  | grep name | sort -u
 languages="en-US fr ja"
 
 # The simulators we want to run the script against, declared as a Bash array.

@@ -98,27 +98,27 @@ function _xcode {
   if test -n "$(find . -maxdepth 1 -name '*.xcworkspace' -print -quit)"
   then
     base=$(basename *.xcworkspace .xcworkspace)
-	# First build omits PRODUCT_NAME
-	# Do NOT ask me why you need to build this twice for it to work
-	# or how I became to know this fact
+    # First build omits PRODUCT_NAME
+    # Do NOT ask me why you need to build this twice for it to work
+    # or how I became to know this fact
     xcodebuild -sdk "iphonesimulator$ios_version" \
-	  CONFIGURATION_BUILD_DIR="$build_dir/build" \
-	  -workspace $base.xcworkspace -scheme $base -configuration AdHoc \
-	  DSTROOT=$build_dir \
-	  OBJROOT=$build_dir \
-	  SYMROOT=$build_dir \
+      CONFIGURATION_BUILD_DIR="$build_dir/build" \
+      -workspace $base.xcworkspace -scheme $base -configuration AdHoc \
+      DSTROOT=$build_dir \
+      OBJROOT=$build_dir \
+      SYMROOT=$build_dir \
       ONLY_ACTIVE_ARCH=NO \
     "$@"
     xcodebuild -sdk "iphonesimulator$ios_version" \
-	  CONFIGURATION_BUILD_DIR="$build_dir/build" \
+      CONFIGURATION_BUILD_DIR="$build_dir/build" \
       PRODUCT_NAME=app \
-	  -workspace $base.xcworkspace -scheme $base -configuration AdHoc \
-	  DSTROOT=$build_dir \
-	  OBJROOT=$build_dir \
-	  SYMROOT=$build_dir \
+      -workspace $base.xcworkspace -scheme $base -configuration AdHoc \
+      DSTROOT=$build_dir \
+      OBJROOT=$build_dir \
+      SYMROOT=$build_dir \
       ONLY_ACTIVE_ARCH=NO \
     "$@"
-	cp -r "$build_dir/build/app.app" "$build_dir"
+    cp -r "$build_dir/build/app.app" "$build_dir"
   else
     xcodebuild -sdk "iphonesimulator$ios_version" \
       CONFIGURATION_BUILD_DIR=$build_dir \

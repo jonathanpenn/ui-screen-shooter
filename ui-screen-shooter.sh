@@ -37,9 +37,7 @@ languages="en-US fr ja"
 # The simulators we want to run the script against, declared as a Bash array.
 # Run `instruments -w help` to get a list of all the possible string values.
 declare -a simulators=(
-"iPhone Retina (3.5-inch) - Simulator - iOS 7.1"
-"iPhone Retina (4-inch) - Simulator - iOS 7.1"
-"iPad Retina - Simulator - iOS 7.1"
+"Resizable iPad"
 )
 
 function main {
@@ -150,7 +148,7 @@ function _run_automation {
           in language \"${language}\"..."
 
   dev_tools_dir=`xcode-select -print-path`
-  tracetemplate="$dev_tools_dir/../Applications/Instruments.app/Contents/PlugIns/AutomationInstrument.bundle/Contents/Resources/Automation.tracetemplate"
+  tracetemplate="$dev_tools_dir/../Applications/Instruments.app/Contents/PlugIns/AutomationInstrument.xrplugin/Contents/Resources/Automation.tracetemplate"
 
   # Check out the `unix_instruments.sh` script to see why we need this wrapper.
   DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"

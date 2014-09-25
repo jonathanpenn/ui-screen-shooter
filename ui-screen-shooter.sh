@@ -35,7 +35,7 @@ ui_script="$2"
 languages="en-US fr ja"
 
 # The simulators we want to run the script against, declared as a Bash array.
-# Run `instruments -w help` to get a list of all the possible string values.
+# Run `instruments -s devices` to get a list of all the possible string values.
 declare -a simulators=(
 "Resizable iPad"
 )

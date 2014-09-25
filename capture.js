@@ -18,6 +18,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+var kPortraitString = "portrait"
+var kLandscapeString = "landscape"
+
+var kMaxDimension4inch = 568;
+var kMaxDimension4point7inch = 667;
+var kMaxDimension5point5inch = 736;
+
+// rectMaxSizeMatchesPhoneWithMaxDimensionForOrientation(rect, maxDimension, orientation)
+//
+// Returns whether the given rect matches a given max dimension in a particular orientation.
+//
+// `rect` is the rectangle representing the image size you want to check
+// `maxDimension` is the size of the longest side of the screen on a given device
+// `orientation` is...well...duh!
+//
+function rectMaxSizeMatchesPhoneWithMaxDimensionForOrientation(rect, maxDimension, orientation) {
+  return (orientation == kPortraitString && rect.size.height == maxDimension) || (orientation == kLandscapeString && rect.size.width == maxDimension)
+}
+
 // captureLocalizedScreenshot(name)
 //
 // Tells the local target to take a screen shot and names the file after the
@@ -38,13 +57,22 @@ function captureLocalizedScreenshot(name) {
   var model = target.model();
   var rect = target.rect();
 
-  var orientation = "portrait";
-  if (rect.size.height < rect.size.width) orientation = "landscape";
+  var orientation = kPortraitString;
+  if (rect.size.height < rect.size.width) {
+    orientation = kLandscapeString;
+  }
 
   if (model.match(/iPhone/)) {
-    if ((orientation == "portrait" && rect.size.height > 480) || (orientation == "landscape" && rect.size.width > 480)) {
+    if (rectMaxSizeMatchesPhoneWithMaxDimensionForOrientation(rect, kMaxDimension4inch, orientation)) {
       model = "iOS-4-in";
-    } else {
+    }
+    else if (rectMaxSizeMatchesPhoneWithMaxDimensionForOrientation(rect, kMaxDimension4point7inch, orientation)) {
+      model = "iOS-4.7-in";
+    }
+    else if (rectMaxSizeMatchesPhoneWithMaxDimensionForOrientation(rect, kMaxDimension5point5inch, orientation)) {
+      model = "iOS-5.5-in";
+    }
+    else {
       model = "iOS-3.5-in";
     }
   } else {
@@ -54,4 +82,3 @@ function captureLocalizedScreenshot(name) {
   var parts = [model, orientation, name];
   target.captureScreenWithName(parts.join("___"));
 }
-

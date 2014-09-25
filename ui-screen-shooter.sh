@@ -148,7 +148,7 @@ function _run_automation {
           in language \"${language}\"..."
 
   dev_tools_dir=`xcode-select -print-path`
-  tracetemplate="$dev_tools_dir/../Applications/Instruments.app/Contents/PlugIns/AutomationInstrument.xrplugin/Contents/Resources/Automation.tracetemplate"
+  tracetemplate="Automation"
 
   # Check out the `unix_instruments.sh` script to see why we need this wrapper.
   DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"

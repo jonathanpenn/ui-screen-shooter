@@ -34,7 +34,7 @@ var kMaxDimension5point5inch = 736;
 // `orientation` is...well...duh!
 //
 function rectMaxSizeMatchesPhoneWithMaxDimensionForOrientation(rect, maxDimension, orientation) {
-    return (orientation == kPortraitString && rect.size.height == maxDimension) || (orientation == kLandscapeString && rect.size.width == maxDimension)
+  return (orientation == kPortraitString && rect.size.height == maxDimension) || (orientation == kLandscapeString && rect.size.width == maxDimension)
 }
 
 // captureLocalizedScreenshot(name)
@@ -53,32 +53,32 @@ function rectMaxSizeMatchesPhoneWithMaxDimensionForOrientation(rect, maxDimensio
 // them wherever you want.
 //
 function captureLocalizedScreenshot(name) {
-    var target = UIATarget.localTarget();
-    var model = target.model();
-    var rect = target.rect();
+  var target = UIATarget.localTarget();
+  var model = target.model();
+  var rect = target.rect();
 
-    var orientation = kPortraitString;
-    if (rect.size.height < rect.size.width) {
-        orientation = kLandscapeString;
+  var orientation = kPortraitString;
+  if (rect.size.height < rect.size.width) {
+    orientation = kLandscapeString;
+  }
+
+  if (model.match(/iPhone/)) {
+    if (rectMaxSizeMatchesPhoneWithMaxDimensionForOrientation(rect, kMaxDimension4inch, orientation)) {
+      model = "iOS-4-in";
     }
-
-    if (model.match(/iPhone/)) {
-        if (rectMaxSizeMatchesPhoneWithMaxDimensionForOrientation(rect, kMaxDimension4inch, orientation)) {
-            model = "iOS-4-in";
-        }
-        else if (rectMaxSizeMatchesPhoneWithMaxDimensionForOrientation(rect, kMaxDimension4point7inch, orientation)) {
-            model = "iOS-4.7-in";
-        }
-        else if (rectMaxSizeMatchesPhoneWithMaxDimensionForOrientation(rect, kMaxDimension5point5inch, orientation)) {
-            model = "iOS-5.5-in";
-        }
-        else {
-            model = "iOS-3.5-in";
-        }
-    } else {
-        model = "iOS-iPad";
+    else if (rectMaxSizeMatchesPhoneWithMaxDimensionForOrientation(rect, kMaxDimension4point7inch, orientation)) {
+      model = "iOS-4.7-in";
     }
+    else if (rectMaxSizeMatchesPhoneWithMaxDimensionForOrientation(rect, kMaxDimension5point5inch, orientation)) {
+      model = "iOS-5.5-in";
+    }
+    else {
+      model = "iOS-3.5-in";
+    }
+  } else {
+    model = "iOS-iPad";
+  }
 
-    var parts = [model, orientation, name];
-    target.captureScreenWithName(parts.join("___"));
+  var parts = [model, orientation, name];
+  target.captureScreenWithName(parts.join("___"));
 }

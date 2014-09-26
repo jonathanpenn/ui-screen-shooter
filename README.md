@@ -7,7 +7,7 @@ You can see the script run against one of [my apps](http://readmoreapp.com) in [
 
   [readmorevid]: http://nl1551.s3.amazonaws.com/cocoamanifest.net/2012/readmore-screenshots.mov
 
-## Prerequesites
+## Prerequisites
 
 First, you need to get Xcode from the App Store. It's free and comes with (almost) everything you need. Once you have Xcode installed, you need to install the command line tools. 
 

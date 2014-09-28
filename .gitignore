@@ -13,3 +13,7 @@
 xcuserdata
 !xcshareddata
 build/*
+
+# Live configuration files
+config-automation.js
+config-screenshots.sh

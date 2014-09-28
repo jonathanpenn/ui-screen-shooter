@@ -27,20 +27,19 @@ set -e
 destination="$1"
 ui_script="$2"
 
-# The locale identifiers for the languages you want to shoot
-# Use the format like en-US zh-Hans for filenames compatible with iTunes
-# connect upload tool
-# FYI: get the locale names for you existing app with iTMSTransporter and: 
-# grep locale ~/Desktop/*.itmsp/metadata.xml  | grep name | sort -u
-languages="en-US fr ja"
-
-# The simulators we want to run the script against, declared as a Bash array.
-# Run `instruments -s devices` to get a list of all the possible string values.
-declare -a simulators=(
-"Resizable iPad"
-)
-
 function main {
+  # Load configuration
+  # Not in a separate function because you can't exort arrays
+  # https://stackoverflow.com/questions/5564418/exporting-an-array-in-bash-script
+  # Will export languages and simulators bash variables
+  export UISS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+  if [ -f "$UISS_DIR"/config-screenshots.sh ]; then
+    source "$UISS_DIR"/config-screenshots.sh
+  else
+    echo "Configuration \"config-screenshots.sh\" does not exist! Aborting."
+    exit 1
+  fi
+
   _check_destination
   _check_ui_script
   _xcode clean build
@@ -81,7 +80,7 @@ function _check_ui_script {
   # Abort if the UI script does not exist.
 
   if [ -z "$ui_script" ]; then
-    ui_script="./shoot_the_screens.js"
+    ui_script="./config-automation.js"
   fi
   if [ ! -f "$ui_script" ]; then
     echo "UI script \"$ui_script\" does not exist! Aborting."

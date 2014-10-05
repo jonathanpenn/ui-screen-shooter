@@ -36,8 +36,13 @@ function main {
   if [ -f "$UISS_DIR"/config-screenshots.sh ]; then
     source "$UISS_DIR"/config-screenshots.sh
   else
-    echo "Configuration \"config-screenshots.sh\" does not exist! Aborting."
-    exit 1
+    if [ -f "$UISS_DIR"/config-screenshots.example.sh ]; then
+      source "$UISS_DIR"/config-screenshots.example.sh
+      echo "WARNING: Using example config-screenshots file, you should create your own"
+    else
+      echo "Configuration \"config-screenshots.sh\" does not exist! Aborting."
+      exit 1
+    fi
   fi
 
   _check_destination
@@ -83,8 +88,13 @@ function _check_ui_script {
     ui_script="./config-automation.js"
   fi
   if [ ! -f "$ui_script" ]; then
-    echo "UI script \"$ui_script\" does not exist! Aborting."
-    exit 1
+    if [ -f "./config-automation.example.js" ]; then
+      ui_script="./config-automation.js"
+      echo "WARNING: Using example config-automation, please create your own"
+    else
+      echo "Config-automation does not exist! Aborting."
+      exit 1
+    fi
   fi
 }
 

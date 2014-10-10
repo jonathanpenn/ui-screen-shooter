@@ -34,7 +34,7 @@ You can see the script run against one of [my apps](http://readmoreapp.com) in [
 
 
 In bin directory you can find the `ui-screen-shooter.sh` file, which is the main script.
-You can add this `bin/` directory to your $PATH (add `export $PATH:/path/to/ui-screen-shooter-bin` to your `~/.bashsh`). 
+You can add this `bin/` directory to your $PATH (add `export $PATH=$PATH:/path/to/ui-screen-shooter/bin` to your `~/.bashrc`). 
 
 ## Usage
 
@@ -45,18 +45,22 @@ To use the shooter in your project:
   3. Customize the `config-automation.js`. This is an Instrument script. You will need some background using "UI Automation" and Instruments. If you don't have experience here you have a [nice tutorial to start with](http://blog.manbolo.com/2012/04/08/ios-automated-tests-with-uiautomation) and [Apple's documentation](https://developer.apple.com/library/ios/documentation/DeveloperTools/Conceptual/InstrumentsUserGuide/UsingtheAutomationInstrument/UsingtheAutomationInstrument.html)
   4. To run the script, on the console, go to your project (where you copied the config files) and run the `ui-screen-shooter.sh` script:
 ``` 
- cd ui-screen-shooter/example
- ../bin/ui-screen-shooter.sh 
+ cd /path/to/your/project/
+ /path/to/ui-screen-shooter.sh 
 ``` 
 
 Note: You may need to change the "Release" build configuration to add i386 to the `VALID_ARCHITECTURES` for the script to work. Then play with the script `automation/config-automation.js` to simulate the user interaction you want. 
 
+Note 2: In your `config-automation.js` file you can always use the line `#import lib/capture.js` to use the capture wrapper function (`captureLocalizedScreenshot()`). The script creates a temporary link to the lib folder.
 
 After your screen shots are saved, see https://github.com/rhaining/itc-localized-screenshot-uploader about uploading them in batch to iTunes connect.
 
 ## Command line options
 
 The script has a few command line options
+
+Run the script with the option `--help` to see this help:
+
 ```
 bin/ui-screen-shooter.sh --help
 

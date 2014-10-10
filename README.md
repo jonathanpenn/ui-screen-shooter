@@ -38,13 +38,7 @@ You can add this `bin/` directory to your $PATH (add `export $PATH:/path/to/ui-s
 
 ## Usage
 
-### Trying the example.
-There is a Xcode Sample project in which you can see the magic. Enter the `example/` directory of the package and run the script:
-
-
-## Using UI Screen Shooter in your project
-
-To use the shooter in your project you need to copy the two config files 
+To use the shooter in your project:
 
   1. Copy the `config-automation.js` and `config-screenshots.sh` from the `example/` in your project. These files shall be in the same directory of  `.xcodeproject` or `.xworkspace`.
   2. Open `config-screenshots.sh` and customize it. The file is self documented.

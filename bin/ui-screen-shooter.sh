@@ -23,32 +23,111 @@
 # Tell bash that we want the whole script to fail if any part fails.
 set -e
 
-# We require a parameter for where to put the results and the test script
-destination="$1"
-ui_script="$2"
+# Global variables to keep track of where everything goes
+tmp_dir="/tmp"
+build_dir="$tmp_dir/screen_shooter"
+bundle_dir="$build_dir/app.app"
+trace_results_dir="$build_dir/traces"
+
+export UISS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+if [ "$DEBUG" ]; then
+  echo "Using UISS_DIR=$UISS_DIR"
+fi
+
+#default options
+config_file="./config-screenshots.sh"
+destination="$HOME/Desktop/screenshots" 
+ui_script="./config-automation.js"
+
+function usage {
+  echo 
+  echo "Usage $0  [options]" 1>&2; 
+  echo 
+  echo "   Options:"
+  echo "     -c, --config-file <config_file> # set config file. Default: $config_file"
+  echo "     -o, --output-dir <path>         # set screenshots output directory. Default: $destination"
+  echo "     -u, --ui-script <script_file>   # set ui-script. Default: $ui_script"
+  echo "     -f, --force                     # force overwrite output directory if exists"
+  echo "     -s, --skip-build                # skip building the project"
+  echo "     -h, --help                      # display this help"
+  exit 1;  
+}
+
+#get options
+while :
+do
+  case "$1" in    #in alphabetical order
+    -c | --config-file) 
+      config_file="$2"
+      shift 2
+      ;;
+    -f | --force)
+	    force="force"   
+      shift
+	    ;;
+    -h | --help)
+	    usage  # Call your function
+	    ;;
+    -s | --skip-build)
+      skip_build="skip-build"
+      shift
+      ;;
+    -u | --ui-script)
+	    ui_script="$2" # You may want to check validity of $2
+	    shift 2
+	    ;;
+    -o | --output-dir)
+      destination="$2"
+      shift 2
+      ;;
+    -v | --verbose)
+ 	    verbose="verbose"
+	    shift
+	    ;;
+    --) # End of all options
+	     shift
+	     break
+       ;;
+    -*)
+	    echo "Error: Unknown option: $1" >&2
+      usage
+	    exit 1
+	    ;;
+    *) 
+       # No more options
+	    break
+	    ;;
+    esac
+done
+
 
 function main {
+  
   # Load configuration
-  # Not in a separate function because you can't exort arrays
+  # Not in a separate function because you can't export arrays
   # https://stackoverflow.com/questions/5564418/exporting-an-array-in-bash-script
   # Will export languages and simulators bash variables
-  export UISS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-  if [ -f "$UISS_DIR"/config-screenshots.sh ]; then
-    source "$UISS_DIR"/config-screenshots.sh
+  if [ -f "$config_file" ]; then
+    source "$config_file"
   else
-    if [ -f "$UISS_DIR"/config-screenshots.example.sh ]; then
-      source "$UISS_DIR"/config-screenshots.example.sh
-      echo "WARNING: Using example config-screenshots file, you should create your own"
-    else
-      echo "Configuration \"config-screenshots.sh\" does not exist! Aborting."
-      exit 1
-    fi
+    echo "Config file \"$config_file\" not found. Aborting!"
+    echo "Read README.md to know more about this file."
+    exit 1
   fi
-
+ 
   _check_destination
   _check_ui_script
-  _xcode clean build
-
+  # run xcode except if --skip-build option is set
+  if [ ! -n "$skip_build" ]; then
+    _xcode clean build
+  fi
+  
+  # create a symbolic link to library
+  if [ ! -f  "./lib" ]; then
+    ln -s $UISS_DIR/../lib ./lib 
+  fi
+  
   for simulator in "${simulators[@]}"; do
     for language in $languages; do
       _clean_trace_results_dir
@@ -56,6 +135,11 @@ function main {
       _copy_screenshots "$language"
     done
   done
+  
+  #unlink the lib
+  if [ -h "./lib" ]; then
+    unlink "./lib"
+  fi
 
   _close_sim
 
@@ -63,39 +147,29 @@ function main {
   echo "Screenshots complete!"
 }
 
-# Global variables to keep track of where everything goes
-tmp_dir="/tmp"
-build_dir="$tmp_dir/screen_shooter"
-bundle_dir="$build_dir/app.app"
-trace_results_dir="$build_dir/traces"
 
 function _check_destination {
-  # Abort if the destination directory already exists. Better safe than sorry.
+  # Abort if the destination directory already exists except if force option set.
+  # Better safe than sorry.
 
-  if [ -z "$destination" ]; then
-    destination="$HOME/Desktop/screenshots"
-  fi
   if [ -d "$destination" ]; then
-    echo "Destination directory \"$destination\" already exists! Aborting."
-    exit 1
+    if [ ! -n "$force" ]; then
+      echo "Output directory \"$destination\" already exists! Aborting."
+      echo "You can use --force option to overwrite its contents."
+      exit 1
+    fi
   fi
 }
 
 function _check_ui_script {
   # Abort if the UI script does not exist.
 
-  if [ -z "$ui_script" ]; then
-    ui_script="./config-automation.js"
-  fi
   if [ ! -f "$ui_script" ]; then
-    if [ -f "./config-automation.example.js" ]; then
-      ui_script="./config-automation.js"
-      echo "WARNING: Using example config-automation, please create your own"
-    else
-      echo "Config-automation does not exist! Aborting."
+      echo "UI Automation script file \"$ui_script\" does not exist! Aborting."
+      echo "Read Readme.md to know more about this file"
       exit 1
-    fi
   fi
+
 }
 
 function _xcode {
@@ -154,15 +228,15 @@ function _run_automation {
 
   echo "Running automation script \"$automation_script\"
           for \"$simulator\"
-          in language \"${language}\"..."
+          in language \"${language}\"..." 
 
   dev_tools_dir=`xcode-select -print-path`
   tracetemplate="Automation"
-
+  
+  
   # Check out the `unix_instruments.sh` script to see why we need this wrapper.
-  DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-  "$DIR"/unix_instruments.sh \
-    -w "$simulator" \
+  "$UISS_DIR"/unix_instruments.sh \
+    -w "$simulator " \
     -D "$trace_results_dir/trace" \
     -t "$tracetemplate" \
     $bundle_dir \
@@ -171,8 +245,9 @@ function _run_automation {
     -AppleLanguages "($language)" \
     -AppleLocale "$language" \
     "$@"
-
+  
   find $trace_results_dir/Run\ 1/ -name *landscape*png -type f -exec sips -r -90 \{\} \;
+  
 }
 
 function _copy_screenshots {

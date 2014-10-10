@@ -6,7 +6,8 @@
 
 // Pull in the special function, captureLocalizedScreenshot(), that names files
 // according to device, language, and orientation
-#import "capture.js"
+
+#import "lib/capture.js"
 
 // Now, we simply drive the application! For more information, check out my
 // resources on UI Automation at http://cocoamanifest.net/features

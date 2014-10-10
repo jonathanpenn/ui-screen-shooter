@@ -21,5 +21,11 @@ export languages="en-US fr ja"
 # Run `instruments -s devices` to get a list of all the possible string values.
 
 declare -xa simulators=(
-"Resizable iPad"
+"Resizable iPad" 
+"iPhone 5"
+"iPhone 5s"
 )
+
+##
+# Uncomment for debugging
+#export DEBUG="debug"

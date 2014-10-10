@@ -10,10 +10,7 @@
 !default.mode1v3
 !default.mode2v3
 !default.perspectivev3
-xcuserdata
-!xcshareddata
-build/*
+example/xcuserdata
+example/!xcshareddata
+example/build/*
 
-# Live configuration files
-config-automation.js
-config-screenshots.sh

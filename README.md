@@ -8,6 +8,12 @@ UI Screen Shooter will take screen shots for your iOS app for the App Store auto
 1. [Apple's Xcode](https://developer.apple.com/xcode/") and its included instruments. 
 2. Command line tools using Xcode 5 or later by running `xcode-select --install` in your Terminal.
 
+##Download
+```
+ git clone https://github.com/jonathanpenn/ui-screen-shooter
+````
+
+
 ## Demonstration
 
 
@@ -26,10 +32,6 @@ You can see the script run against one of [my apps](http://readmoreapp.com) in [
   [readmorevid]: http://nl1551.s3.amazonaws.com/cocoamanifest.net/2012/readmore-screenshots.mov
 
 
-Download
-```
- git clone https://github.com/jonathanpenn/ui-screen-shooter
-````
 
 In bin directory you can find the `ui-screen-shooter.sh` file, which is the main script.
 You can add this `bin/` directory to your $PATH (add `export $PATH:/path/to/ui-screen-shooter-bin` to your `~/.bashsh`). 

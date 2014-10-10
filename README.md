@@ -5,11 +5,18 @@ UI Screen Shooter will take screen shots for your iOS app for the App Store auto
 
 ## Prerequisites
 
-You will need <a href="https://developer.apple.com/xcode/">Apple's Xcode</a> and its included instruments. Additionally, install command line tools using Xcode 5 or later by running `xcode-select --install` in your Terminal.
+1. [Apple's Xcode](https://developer.apple.com/xcode/") and its included instruments. 
+2. Command line tools using Xcode 5 or later by running `xcode-select --install` in your Terminal.
 
 ## Demonstration
 
-To run the demonstration, copy the two example config files and rename them without "example", then run `./ui-screen-shooter.sh` from inside the project directory. After a few minutes, you can open the destination directory and see all the languages, devices types and screen sizes as PNGs. By default each screenshot is saved to `screenshots/` on your desktop named like so:
+
+To run the demonstration, enter the "example" dir, then run `./ui-screen-shooter.sh`
+``` 
+ cd ui-screen-shooter/example
+ ../bin/ui-screen-shooter.sh 
+```
+After a few minutes, you can open the destination directory and see all the languages, devices types and screen sizes as PNGs. By default each screenshot is saved to `screenshots/` on your desktop named like so:
 
     en_US/iphone5-portrait-screen1.png
     ...
@@ -18,9 +25,57 @@ You can see the script run against one of [my apps](http://readmoreapp.com) in [
 
   [readmorevid]: http://nl1551.s3.amazonaws.com/cocoamanifest.net/2012/readmore-screenshots.mov
 
+
+Download
+```
+ git clone https://github.com/jonathanpenn/ui-screen-shooter
+````
+
+In bin directory you can find the `ui-screen-shooter.sh` file, which is the main script.
+You can add this `bin/` directory to your $PATH (add `export $PATH:/path/to/ui-screen-shooter-bin` to your `~/.bashsh`). 
+
 ## Usage
 
-To use UI Screen Shooter, clone or download inside your project's folder. Then copy the example config files and rename without "example". You may need to change the "Release" build configuration to add i386 to the `VALID_ARCHITECTURES` for this to work. Then play with the script `automation/config-automation.js` to simulate the user interaction you want. After your screen shots are saved, see https://github.com/rhaining/itc-localized-screenshot-uploader about uploading them in batch to iTunes connect.
+### Trying the example.
+There is a Xcode Sample project in which you can see the magic. Enter the `example/` directory of the package and run the script:
+
+
+## Using UI Screen Shooter in your project
+
+To use the shooter in your project you need to copy the two config files 
+
+  1. Copy the `config-automation.js` and `config-screenshots.sh` from the `example/` in your project. These files shall be in the same directory of  `.xcodeproject` or `.xworkspace`.
+  2. Open `config-screenshots.sh` and customize it. The file is self documented.
+  3. Customize the `config-automation.js`. This is an Instrument script. You will need some background using "UI Automation" and Instruments. If you don't have experience here you have a [nice tutorial to start with](http://blog.manbolo.com/2012/04/08/ios-automated-tests-with-uiautomation) and [Apple's documentation](https://developer.apple.com/library/ios/documentation/DeveloperTools/Conceptual/InstrumentsUserGuide/UsingtheAutomationInstrument/UsingtheAutomationInstrument.html)
+  4. To run the script, on the console, go to your project (where you copied the config files) and run the `ui-screen-shooter.sh` script:
+``` 
+ cd ui-screen-shooter/example
+ ../bin/ui-screen-shooter.sh 
+``` 
+
+Note: You may need to change the "Release" build configuration to add i386 to the `VALID_ARCHITECTURES` for the script to work. Then play with the script `automation/config-automation.js` to simulate the user interaction you want. 
+
+
+After your screen shots are saved, see https://github.com/rhaining/itc-localized-screenshot-uploader about uploading them in batch to iTunes connect.
+
+## Command line options
+
+The script has a few command line options
+```
+bin/ui-screen-shooter.sh --help
+
+Usage bin/ui-screen-shooter.sh  [options]
+
+   Options:
+     -c, --config-file <config_file> # set config file. Default: ./config-screenshots.sh
+     -o, --output-dir <path>         # set screenshots output directory. Default: /Users/<yourusername>/Desktop/screenshots
+     -u, --ui-script <script_file>   # set ui-script. Default: ./config-automation.js
+     -f, --force                     # force overwrite output directory if exists
+     -s, --skip-build                # skip building the project
+     -h, --help                      # display this help
+
+```
+
 
 ## How It Works
 

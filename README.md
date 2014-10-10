@@ -17,7 +17,7 @@ UI Screen Shooter will take screen shots for your iOS app for the App Store auto
 ## Demonstration
 
 
-To run the demonstration, enter the "example" dir, then run `./ui-screen-shooter.sh`
+To run the demonstration, enter the "example" dir, then launch the `../bin/ui-screen-shooter.sh` script.
 ``` 
  cd ui-screen-shooter/example
  ../bin/ui-screen-shooter.sh 
@@ -34,7 +34,7 @@ You can see the script run against one of [my apps](http://readmoreapp.com) in [
 
 
 In bin directory you can find the `ui-screen-shooter.sh` file, which is the main script.
-You can add this `bin/` directory to your $PATH (add `export $PATH=$PATH:/path/to/ui-screen-shooter/bin` to your `~/.bashrc`). 
+If you use the script frequently add add the `bin/` folder to your $PATH (`export $PATH=$PATH:/path/to/ui-screen-shooter/bin` within `~/.bashrc`). 
 
 ## Usage
 
@@ -51,15 +51,13 @@ To use the shooter in your project:
 
 Note: You may need to change the "Release" build configuration to add i386 to the `VALID_ARCHITECTURES` for the script to work. Then play with the script `automation/config-automation.js` to simulate the user interaction you want. 
 
-Note 2: In your `config-automation.js` file you can always use the line `#import lib/capture.js` to use the capture wrapper function (`captureLocalizedScreenshot()`). The script creates a temporary link to the lib folder.
+Note 2: In your `config-automation.js` file you can include the line `#import lib/capture.js` to use the capture wrapper function (`captureLocalizedScreenshot()`). The script creates a temporary link to the lib folder so any file saved in the lib folder is available.
 
 After your screen shots are saved, see https://github.com/rhaining/itc-localized-screenshot-uploader about uploading them in batch to iTunes connect.
 
 ## Command line options
 
-The script has a few command line options
-
-Run the script with the option `--help` to see this help:
+The script has a few command line options. Run the script with the option `--help` to see the options:
 
 ```
 bin/ui-screen-shooter.sh --help
@@ -75,7 +73,7 @@ Usage bin/ui-screen-shooter.sh  [options]
      -h, --help                      # display this help
 
 ```
-
+During the development and testing of your `config-automation.js` script, enabling `--skip-build` and `--force` will be particularly useful.
 
 ## How It Works
 

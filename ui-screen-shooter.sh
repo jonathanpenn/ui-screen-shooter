@@ -169,8 +169,7 @@ function _run_automation {
     -e UIARESULTSPATH "$trace_results_dir" \
     -e UIASCRIPT "$automation_script" \
     -AppleLanguages "($language)" \
-    -AppleLocale "$language" \
-    "$@"
+    -AppleLocale "$language"
 
   find $trace_results_dir/Run\ 1/ -name *landscape*png -type f -exec sips -r -90 \{\} \;
 }

@@ -28,11 +28,13 @@ tmp_dir="/tmp"
 build_dir="$tmp_dir/screen_shooter"
 bundle_dir="$build_dir/app.app"
 trace_results_dir="$build_dir/traces"
+tmp_ui_script="./.ui-screen-shooter-tmp.js"
+
 
 export UISS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ "$DEBUG" ]; then
-  echo "Using UISS_DIR=$UISS_DIR"
+  echo "DEBUG: Using UISS_DIR=$UISS_DIR"
 fi
 
 #default options
@@ -123,11 +125,7 @@ function main {
     _xcode clean build
   fi
   
-  # create a symbolic link to library
-  if [ ! -f  "./lib" ]; then
-    ln -s $UISS_DIR/../lib ./lib 
-  fi
-  
+  _create_dyn_js_file
   for simulator in "${simulators[@]}"; do
     for language in $languages; do
       _clean_trace_results_dir
@@ -136,11 +134,6 @@ function main {
     done
   done
   
-  #unlink the lib
-  if [ -h "./lib" ]; then
-    unlink "./lib"
-  fi
-
   _close_sim
 
   echo
@@ -210,6 +203,35 @@ function _xcode {
   fi
 }
 
+function real_path() {
+  # $1 : relative filename
+  echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
+}
+
+function _create_dyn_js_file {
+  #Creates a UIAutomation js file that automatically imports all js files in UISS_DIR/../lib/
+  #get the path to lib
+  
+  lib_js_files=`ls "$UISS_DIR"/../lib/*.js`
+  if [ "$DEBUG" ]; then
+    echo "DEBUG: ui-screen-shooter library_files: $lib_js_files"
+  fi
+  echo "//temporary file created by ui-screen-shooter." > $tmp_ui_script
+  echo "//add it to your .gitignore" >> $tmp_ui_script
+  for lib_js_file in $lib_js_files; do
+    real_lib_js_file_path=$(real_path $lib_js_file)
+    echo "Adding library file: $real_lib_js_file_path" 
+    echo "#import \"$real_lib_js_file_path\"" >> $tmp_ui_script
+  done
+  real_ui_script_path=$(real_path "$ui_script")
+  echo "#import \"$real_ui_script_path\"" >> $tmp_ui_script
+  
+  if [ "$DEBUG" ]; then
+    echo "DEBUG: $tmp_ui_script contents:"
+    cat $tmp_ui_script
+  fi
+}
+
 function _clean_trace_results_dir {
   # Removes the trace results directory. We need to do this because Instruments
   # keeps appending new trace runs and it's simpler for us to always assume
@@ -241,11 +263,10 @@ function _run_automation {
     -t "$tracetemplate" \
     $bundle_dir \
     -e UIARESULTSPATH "$trace_results_dir" \
-    -e UIASCRIPT "$automation_script" \
+    -e UIASCRIPT "$tmp_ui_script" \
     -AppleLanguages "($language)" \
-    -AppleLocale "$language" \
-    "$@"
-  
+    -AppleLocale "$language" 
+   
   find $trace_results_dir/Run\ 1/ -name *landscape*png -type f -exec sips -r -90 \{\} \;
   
 }

@@ -4,10 +4,9 @@
 // See also http://cocoamanifest.net/features/#ui_automation for automation help
 
 
-// Pull in the special function, captureLocalizedScreenshot(), that names files
-// according to device, language, and orientation
-
-#import "lib/capture.js"
+// ui-screen-shooter automatically pulls captureLocalizedScreenshot() function, 
+//that names files according to device, language, and orientation
+//(see screen-shooter/lib folder)
 
 // Now, we simply drive the application! For more information, check out my
 // resources on UI Automation at http://cocoamanifest.net/features

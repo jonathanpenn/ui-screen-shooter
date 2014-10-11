@@ -14,3 +14,4 @@ example/xcuserdata
 example/!xcshareddata
 example/build/*
 
+.ui-screen-shooter-tmp.js

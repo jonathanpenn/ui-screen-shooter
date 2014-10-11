@@ -48,12 +48,15 @@ To use the shooter in your project:
  cd /path/to/your/project/
  /path/to/ui-screen-shooter.sh 
 ``` 
-
-Note: You may need to change the "Release" build configuration to add i386 to the `VALID_ARCHITECTURES` for the script to work. Then play with the script `automation/config-automation.js` to simulate the user interaction you want. 
-
-Note 2: In your `config-automation.js` file you can include the line `#import lib/capture.js` to use the capture wrapper function (`captureLocalizedScreenshot()`). The script creates a temporary link to the lib folder so any file saved in the lib folder is available.
+Note: You may need to change the "Release" build configuration to add i386 to the `VALID_ARCHITECTURES` for the script to work. Then play with the script `config-automation.js` to simulate the user interaction you want. 
 
 After your screen shots are saved, see https://github.com/rhaining/itc-localized-screenshot-uploader about uploading them in batch to iTunes connect.
+
+### Autoload of `lib/`
+
+`ui-screen-shooter.sh` automatically makes available in your `config-automation.js` script any javascript file of the `lib/` folder (ex: `lib/capture.js`). You can create a UIAutomation javascript library and save it in the lib/ folder and use it across you projects.
+
+You  can make use the capture wrapper function `captureLocalizedScreenshot(screenshotStringName")`. It is a custom method that checks for the device, deduces the orientation, and generates the screenshot file name along with the user supplied identifier. 
 
 ## Command line options
 

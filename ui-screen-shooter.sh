@@ -112,7 +112,7 @@ function _xcode {
     # or how I became to know this fact
     xcodebuild -sdk "iphonesimulator$ios_version" \
       CONFIGURATION_BUILD_DIR="$build_dir/build" \
-      -workspace $base.xcworkspace -scheme $base -configuration AdHoc \
+      -workspace $base.xcworkspace -scheme $base -configuration Debug \
       DSTROOT=$build_dir \
       OBJROOT=$build_dir \
       SYMROOT=$build_dir \
@@ -121,7 +121,7 @@ function _xcode {
     xcodebuild -sdk "iphonesimulator$ios_version" \
       CONFIGURATION_BUILD_DIR="$build_dir/build" \
       PRODUCT_NAME=app \
-      -workspace $base.xcworkspace -scheme $base -configuration AdHoc \
+      -workspace $base.xcworkspace -scheme $base -configuration Debug \
       DSTROOT=$build_dir \
       OBJROOT=$build_dir \
       SYMROOT=$build_dir \

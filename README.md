@@ -9,7 +9,7 @@ You will need <a href="https://developer.apple.com/xcode/">Apple's Xcode</a> and
 
 ## Demonstration
 
-To run the demonstration, copy the two example config files and rename them without "example", then run `./ui-screen-shooter.sh` from inside the project directory. After a few minutes, you can open the destination directory and see all the languages, devices types and screen sizes as PNGs. By default each screenshot is saved to `screenshots/` on your desktop named like so:
+To run the demonstration, copy the two example config files and rename them without "example", then run `./ui-screen-shooter.sh` from inside the project directory. After a few minutes, you can open the destination directory and see all the languages, devices types and screen sizes as PNGs. By default each screenshot is saved to `~/Desktop/screenshots/` named like so:
 
     en_US/iphone5-portrait-screen1.png
     ...

@@ -41,6 +41,7 @@ fi
 config_file="./config-screenshots.sh"
 destination="$HOME/Desktop/screenshots" 
 ui_script="./config-automation.js"
+xcode_project_dir="./"
 
 function usage {
   echo 
@@ -50,6 +51,7 @@ function usage {
   echo "     -c, --config-file <config_file> # set config file. Default: $config_file"
   echo "     -o, --output-dir <path>         # set screenshots output directory. Default: $destination"
   echo "     -u, --ui-script <script_file>   # set ui-script. Default: $ui_script"
+  echo "     -x  --xcode-project-dir <path>  # set xcode-project path. Default: $xcode_project_dir"
   echo "     -f, --force                     # force overwrite output directory if exists"
   echo "     -s, --skip-build                # skip building the project"
   echo "     -h, --help                      # display this help"
@@ -81,6 +83,10 @@ do
 	    ;;
     -o | --output-dir)
       destination="$2"
+      shift 2
+      ;;
+    -x | --xcode-project-dir)
+        xcode_project_dir="$2"
       shift 2
       ;;
     -v | --verbose)
@@ -115,14 +121,22 @@ function main {
   else
     echo "Config file \"$config_file\" not found. Aborting!"
     echo "Read README.md to know more about this file."
+    echo "Run the script with --help to see options"
     exit 1
   fi
- 
+
+  if [ ! -d "$xcode_project_dir" ]; then
+    echo "Xcode Project dir \"$xcode_project_dir\ does not exist. Aborting!"
+    exit 1
+  fi
+
   _check_destination
   _check_ui_script
   # run xcode except if --skip-build option is set
   if [ ! -n "$skip_build" ]; then
+    cd $xcode_project_dir
     _xcode clean build
+    cd -
   fi
   
   _create_dyn_js_file
@@ -148,7 +162,7 @@ function _check_destination {
   if [ -d "$destination" ]; then
     if [ ! -n "$force" ]; then
       echo "Output directory \"$destination\" already exists! Aborting."
-      echo "You can use --force option to overwrite its contents."
+      echo "Use --force option to overwrite its contents."
       exit 1
     fi
   fi

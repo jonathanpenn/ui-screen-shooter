@@ -120,14 +120,14 @@ function _xcode {
     "$@"
     xcodebuild -sdk "iphonesimulator$ios_version" \
       CONFIGURATION_BUILD_DIR="$build_dir/build" \
-      PRODUCT_NAME=app \
       -workspace "$base.xcworkspace" -scheme "$base" -configuration Debug \
       DSTROOT=$build_dir \
       OBJROOT=$build_dir \
       SYMROOT=$build_dir \
       ONLY_ACTIVE_ARCH=NO \
     "$@"
-    cp -r "$build_dir/build/app.app" "$build_dir"
+    cp -r "$build_dir/build/$base.app" "$build_dir"
+    bundle_dir="$build_dir/$base.app"
   else
     xcodebuild -sdk "iphonesimulator$ios_version" \
       CONFIGURATION_BUILD_DIR=$build_dir \
@@ -165,7 +165,7 @@ function _run_automation {
     -w "$simulator" \
     -D "$trace_results_dir/trace" \
     -t "$tracetemplate" \
-    $bundle_dir \
+    "$bundle_dir" \
     -e UIARESULTSPATH "$trace_results_dir" \
     -e UIASCRIPT "$automation_script" \
     -AppleLanguages "($language)" \

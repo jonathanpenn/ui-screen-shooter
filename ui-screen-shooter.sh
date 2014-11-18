@@ -116,6 +116,7 @@ function _xcode {
       DSTROOT=$build_dir \
       OBJROOT=$build_dir \
       SYMROOT=$build_dir \
+      GCC_PREPROCESSOR_DEFINITIONS='$GCC_PREPROCESSOR_DEFINITIONS SCREENSHOTS=1' \
       ONLY_ACTIVE_ARCH=NO \
     "$@"
     xcodebuild -sdk "iphonesimulator$ios_version" \
@@ -124,6 +125,7 @@ function _xcode {
       DSTROOT=$build_dir \
       OBJROOT=$build_dir \
       SYMROOT=$build_dir \
+      GCC_PREPROCESSOR_DEFINITIONS='$GCC_PREPROCESSOR_DEFINITIONS SCREENSHOTS=1' \
       ONLY_ACTIVE_ARCH=NO \
     "$@"
     cp -r "$build_dir/build/$base.app" "$build_dir"

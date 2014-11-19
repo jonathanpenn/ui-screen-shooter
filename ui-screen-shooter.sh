@@ -47,6 +47,8 @@ function main {
 
   _check_destination
   _check_ui_script
+  _close_sim
+  _reset_all_sim
   _xcode clean build
 
   for simulator in "${simulators[@]}"; do
@@ -187,10 +189,22 @@ function _copy_screenshots {
   cp $trace_results_dir/Run\ 1/*.png "$destination/$language"
 }
 
+function _reset_all_sim {
+  # Reset all apps and data on from all iOS Simulators
+  # Attention: Simulator can only be reset if it is not opend
+  instruments -s devices \
+   | grep Simulator \
+   | grep -o "[0-9A-F]\{8\}-[0-9A-F]\{4\}-[0-9A-F]\{4\}-[0-9A-F]\{4\}-[0-9A-F]\{12\}" \
+   | while read -r line ; do
+      echo "Reseting Simulator with UDID: $line"
+      xcrun simctl erase $line
+  done
+}
+
 function _close_sim {
-  # I know, I know. It says "iPhone Simulator". For some reason,
+  # I know, I know. It says "iOS Simulator". For some reason,
   # that's the only way Applescript can identify it.
-  osascript -e "tell application \"iPhone Simulator\" to quit"
+  osascript -e "tell application \"iOS Simulator\" to quit"
 }
 
 main

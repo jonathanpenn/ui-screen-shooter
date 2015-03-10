@@ -165,7 +165,7 @@ function _run_automation {
 
   # Check out the `unix_instruments.sh` script to see why we need this wrapper.
   DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-  "$DIR"/unix_instruments.sh \
+  until "$DIR"/unix_instruments.sh \
     -w "$simulator" \
     -D "$trace_results_dir/trace" \
     -t "$tracetemplate" \
@@ -174,6 +174,10 @@ function _run_automation {
     -e UIASCRIPT "$automation_script" \
     -AppleLanguages "($language)" \
     -AppleLocale "$language"
+   do
+    echo Instruments failed to start up... retrying in 2 seconds
+    sleep 2
+  done
 
   find $trace_results_dir/Run\ 1/ -name *landscape*png -type f -exec sips -r -90 \{\} \;
 }

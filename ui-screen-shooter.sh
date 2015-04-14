@@ -61,6 +61,8 @@ function main {
 
   _close_sim
 
+  _remove_alpha_from_screenshots
+
   echo
   echo "Screenshots complete!"
 }
@@ -209,6 +211,18 @@ function _close_sim {
   # I know, I know. It says "iOS Simulator". For some reason,
   # that's the only way Applescript can identify it.
   osascript -e "tell application \"iOS Simulator\" to quit"
+}
+
+function _remove_alpha_from_screenshots {
+  if ! type "convert" &> /dev/null; then
+    echo -e "\nCannot remove alpha channel because ImageMagick is not installed. You need to remove alpha before you can upload to iTunes Connect."
+  else
+    language="$1"
+    for entry in $(ls $destination/*/iOS*.png); do
+    convert "$entry" -background white -alpha off "$entry"
+    done
+    echo -e "\nScreenshots' alpha channel removed."
+  fi
 }
 
 main

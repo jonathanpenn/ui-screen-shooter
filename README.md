@@ -5,7 +5,8 @@ UI Screen Shooter will take screen shots for your iOS app for the App Store auto
 
 ## Prerequisites
 
-You will need <a href="https://developer.apple.com/xcode/">Apple's Xcode</a> and its included instruments. Additionally, install command line tools using Xcode 5 or later by running `xcode-select --install` in your Terminal.
+You will need <a href="https://developer.apple.com/xcode/">Apple's Xcode</a> and its included instruments. Additionally, install command line tools using Xcode 5 or later by running `xcode-select --install` in your Terminal.<br>
+**Optional**: ImageMagick, to remove alpha channel (which iTunes Connect requires). Script will run regardless of whether its installed or not.
 
 ## Demonstration
 

@@ -24,6 +24,7 @@ var kLandscapeString = "landscape"
 var kMaxDimension4inch = 568;
 var kMaxDimension4point7inch = 667;
 var kMaxDimension5point5inch = 736;
+var kMaxDimensioniPadPro = 1366;
 
 // rectMaxSizeMatchesPhoneWithMaxDimensionForOrientation(rect, maxDimension, orientation)
 //
@@ -76,7 +77,11 @@ function captureLocalizedScreenshot(name) {
       model = "iOS-3.5-in";
     }
   } else {
-    model = "iOS-iPad";
+    if (rectMaxSizeMatchesPhoneWithMaxDimensionForOrientation(rect, kMaxDimensioniPadPro, orientation)) {
+      model = "iOS-iPad-Pro";
+    } else {
+      model = "iOS-iPad";
+    }
   }
 
   var parts = [model, orientation, name];

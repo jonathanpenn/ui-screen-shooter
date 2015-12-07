@@ -1,6 +1,17 @@
 UI Screen Shooter
 =================
 
+**DEPRECATED**
+
+I'm no longer able to maintain the development of this project, but fear not! [Felix Krause][k] has done a fantastic job integrating iOS screenshot capability in his all-encompasing [fastlane][f] project. I would recommend looking into his [screenshot][s] project for your needs.
+
+  [k]: https://github.com/KrauseFx
+  [f]: https://fastlane.tools
+  [s]: https://github.com/fastlane/snapshot
+
+
+----
+
 UI Screen Shooter will take screen shots for your iOS app for the App Store automatically using UI Automation. This will produce the images needed in each localization, for each device, and in each screen of the app you need. This saves quite a bit of time since we need to generate screens for the 3.5", 4", 4.5", and 5.5" displays, and both iPhone and iPad if your app is universal--not to mention that you have to do this for *every* localization you support in the store.
 
 ## Prerequisites

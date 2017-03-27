@@ -57,6 +57,9 @@ function captureLocalizedScreenshot(name) {
   var target = UIATarget.localTarget();
   var model = target.model();
   var rect = target.rect();
+  
+  var language = target.frontMostApp().
+  preferencesValueForKey("AppleLanguages")[0];
 
   var orientation = kPortraitString;
   if (rect.size.height < rect.size.width) {
@@ -84,6 +87,6 @@ function captureLocalizedScreenshot(name) {
     }
   }
 
-  var parts = [model, orientation, name];
+  var parts = [language, model, orientation, name];
   target.captureScreenWithName(parts.join("___"));
 }
